@@ -1,0 +1,135 @@
+﻿
+
+.btn-light-gray {
+    background-color: #d3d3d3; /* لون رمادي فاتح */
+    color: black; /* لون النص */
+    border: none; /* إخفاء الإطار */
+    padding: 10px 20px; /* ضبط الحشوة */
+    text-align: center; /* محاذاة النص في الوسط */
+    text-decoration: none; /* إزالة التسطير عن النص */
+    display: inline-block; /* عرض الزر كعنصر سطري */
+    font-size: 16px; /* حجم النص */
+    margin: 4px 2px; /* الهوامش */
+    cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+    border-radius: 4px; /* تقويس الزوايا */
+}
+
+    .btn-light-gray:hover {
+        background-color: #a9a9a9; /* لون الخلفية عند التحويم */
+    }
+.btn-success {
+    background-color: #28a745; /* لون success في Bootstrap */
+    color: white; /* لون النص */
+    border: none; /* إخفاء الإطار */
+    padding: 10px 20px; /* ضبط الحشوة */
+    text-align: center; /* محاذاة النص في الوسط */
+    text-decoration: none; /* إزالة التسطير عن النص */
+    display: inline-block; /* عرض الزر كعنصر سطري */
+    font-size: 16px; /* حجم النص */
+    margin: 4px 2px; /* الهوامش */
+    cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+    border-radius: 4px; /* تقويس الزوايا */
+}
+
+    .btn-success:hover {
+        background-color: #218838; /* لون الخلفية عند التحويم */
+    }
+.btn-gray {
+    background-color: #6c757d; /* لون رمادي */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-gray:hover {
+        color: white;
+        background-color: #5a6268; /* لون التحويم */
+    }
+
+.Btn-warning {
+    background-color: #ffc107; /* لون warning في Bootstrap */
+    color: black; /* لون النص */
+    border: none; /* إخفاء الإطار */
+    padding: 10px 20px; /* ضبط الحشوة */
+    text-align: center; /* محاذاة النص في الوسط */
+    text-decoration: none; /* إزالة التسطير عن النص */
+    display: inline-block; /* عرض الزر كعنصر سطري */
+    font-size: 16px; /* حجم النص */
+    margin: 4px 2px; /* الهوامش */
+    cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+    border-radius: 4px; /* تقويس الزوايا */
+}
+
+    .Btn-warning:hover {
+        background-color: #e0a800; /* لون الخلفية عند التحويم */
+    }
+
+
+.PrimaryBtn {
+    background-color: rgb(15, 103, 177) !important;
+    color: white; /* لون النص */
+    border: none; /* إخفاء الإطار */
+    padding: 10px 20px; /* ضبط الحشوة */
+    text-align: center; /* محاذاة النص في الوسط */
+    text-decoration: none; /* إزالة التسطير عن النص */
+    display: inline-block; /* عرض الزر كعنصر سطري */
+    font-size: 16px; /* حجم النص */
+    margin: 4px 2px; /* الهوامش */
+    cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+    border-radius: 4px; /* تقويس الزوايا */
+}
+
+    .PrimaryBtn:hover {
+        color: white !important;
+    }
+.btn-danger {
+    background-color: #dc3545; /* لون danger في Bootstrap */
+    color: white; /* لون النص */
+    border: none; /* إخفاء الإطار */
+    padding: 10px 20px; /* ضبط الحشوة */
+    text-align: center; /* محاذاة النص في الوسط */
+    text-decoration: none; /* إزالة التسطير عن النص */
+    display: inline-block; /* عرض الزر كعنصر سطري */
+    font-size: 16px; /* حجم النص */
+    margin: 4px 2px; /* الهوامش */
+    cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+    border-radius: 4px; /* تقويس الزوايا */
+}
+
+    .btn-danger:hover {
+        background-color: #c82333; /* لون الخلفية عند التحويم */
+    }
+
+
+/* CSS for hover effect */
+#dataTable tbody tr:hover {
+    background-color: rgba(128, 128, 128, 0.2); /* Gray color with high transparency */
+}
+
+.ShadowDiv {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.green {
+    box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5);
+}
+
+.yellow {
+    box-shadow: 0 4px 8px rgba(255, 255, 0, 0.5);
+}
+
+.red {
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.5);
+}
+
+.blue {
+    box-shadow: 0 4px 8px rgba(0, 0, 255, 0.5);
+}

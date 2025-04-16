@@ -1,0 +1,89 @@
+﻿<div id="personal-info" class="shadow mt-3">
+    <span class="bg-color"> أضافة مخرجات </span>
+    <div class="row">
+        <!-- اسم المادة -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label for="subject-name">اسم المادة</label>
+            <select id="subject-name" class="form-control">
+                <option selected disabled>اختر اسم المادة</option>
+
+            </select>
+        </div>
+
+        <!-- العدد -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label for="subject-quantity">العدد</label>
+            <input type="text" id="subject-quantity" class="form-control" placeholder="العدد ">
+
+        </div>
+        <!-- نوع الإخراج -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label for="output-type">نوع الإخراج</label>
+            <select id="output-type" class="form-control" onchange="toggleOutputOptions()">
+                <option selected disabled>اختر نوع الإخراج</option>
+                <option value="personal">إخراج شخصي</option>
+                <option value="department">إخراج قسم</option>
+            </select>
+        </div>
+
+        <!-- اختر الشخص -->
+        <div class="col-sm-12 col-md-4 mt-3 d-none" id="person-dropdown">
+            <label for="person">اختر الشخص</label>
+            <select id="person" class="form-control">
+                <option selected disabled>اختر الشخص</option>
+                <option value="person1">محمد علي</option>
+                <option value="person2">أحمد حسين</option>
+                <!-- أضف المزيد -->
+            </select>
+        </div>
+
+        <!-- اختر القسم -->
+        <div class="col-sm-12 col-md-4 mt-3 d-none" id="department-dropdown">
+            <label for="department">اختر القسم</label>
+            <select id="department" class="form-control">
+                <option selected disabled>اختر القسم</option>
+                <option value="math-dept">قسم الرياضيات</option>
+                <option value="science-dept">قسم العلوم</option>
+                <!-- أضف المزيد -->
+            </select>
+        </div>
+        <!-- مصدر المادة -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label for="subject-source">مصدر المادة</label>
+            <input type="text" id="subject-source" class="form-control" placeholder="اسم مصدر">
+
+        </div>
+
+        <!-- رقم المستند -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label for="document-number">رقم المستند</label>
+            <input type="text" id="document-number" class="form-control" placeholder="رقم المستند">
+        </div>
+
+        
+
+    </div>
+
+
+    <div class="col-sm-12 mt-3">
+        <input type="submit" class="form-control color-btn" value="حفظ" />
+    </div>
+</div>
+<script>
+    function toggleOutputOptions() {
+        const type = document.getElementById("output-type").value;
+        const personDiv = document.getElementById("person-dropdown");
+        const deptDiv = document.getElementById("department-dropdown");
+
+        if (type === "personal") {
+            personDiv.classList.remove("d-none");
+            deptDiv.classList.add("d-none");
+        } else if (type === "department") {
+            deptDiv.classList.remove("d-none");
+            personDiv.classList.add("d-none");
+        } else {
+            personDiv.classList.add("d-none");
+            deptDiv.classList.add("d-none");
+        }
+    }
+</script>
