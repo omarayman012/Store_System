@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model IEnumerable<Store_Sys.Models.OutMaterials>
+
+<style>
     /* From Uiverse.io by alexmaracinaru */
     .cta {
         position: relative;
@@ -65,7 +67,7 @@
         <p>
             هذه الصفحة تعرض بيانات كل الجلسات  الخاصة بالمخرجات
         </p>
-    </div>
+    </div
     <div id="personal-info" class="shadow">
         <div class="row my-3">
             <div class="col-sm-12 col-md-6 col-lg-2">
@@ -90,33 +92,64 @@
                         <th scope="col">المصدر للمادة</th>
                         <th scope="col">رقم المستند </th>
                         <th scope="col"> نوع الأخراج </th>
-                        <th scope="col">ألى   </th>
+                        <th scope="col"> إلى </th>
 
                         <th scope="col">تعديل</th>
                         <th scope="col">  حذف   </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Material?.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Source</td>
+                            <td>@item.DocumentNumber</td>
+                            <td>
+                                @switch (item.OutputType)
+                                {
+                                    case OutputType.Personal:
+                                        @:إخراج شخصي
+                                        break;
+                                    case OutputType.Department:
+                                        @:إخراج قسم
+                                        break;
+                                    default:
+                                        @:غير معروف
+                                        break;
+                                }
+                            </td>
 
-                        <td>
-                            <a href="@Url.Action("Edit", "OutMaterials")" class="btn text-dark">
-                                <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px; vertical-align: middle;">
-                            </a>
-                        </td>
-                        <td>
-                            <button class="btn text-dark delete-session" style="border: none; background: transparent;">
-                                <img src="/images/trash.png" alt="أيقونة حذف" class="text-dark" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 5px;">
-                            </button>
-                        </td>
-                    </tr>
+                            <td>
+                                @switch (item.OutputType)
+                                {
+                                    case OutputType.Personal:
+                                        @(item.Person?.Name ?? "غير محدد")
+                                        break;
+                                    case OutputType.Department:
+                                        @(item.Department?.Name ?? "غير محدد")
+                                        break;
+                                    default:
+                                        @:غير محدد
+                                        break;
+                                }
+                            </td>
 
+                            <td>
+                                <a href="@Url.Action("Edit", "OutMaterials", new { id = item.Id })" class="btn text-dark">
+                                    <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px;">
+                                </a>
+                            </td>
+                            
+                            <td>
+                                <button type="button" class="btn text-dark delete-btn" data-id="@item.Id">
+                                    <img src="/images/trash.png" alt="حذف" style="width: 30px; height: 30px;">
+                                </button>
+                            </td>
+                           
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -124,4 +157,55 @@
     </div>
 
 </div>
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+               document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+
+                    Swal.fire({
+                        title: 'هل أنت متأكد؟',
+                        text: "لن تتمكن من التراجع عن هذه العملية!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'نعم، احذف!',
+                        cancelButtonText: 'إلغاء'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // الحصول على التوكين من الفورم المخفي
+                            const token = document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]').value;
+
+                            fetch(`/OutMaterials/Delete/${id}`, {
+                                method: 'POST',
+                                headers: {
+                                    'RequestVerificationToken': token,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id: id })
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    Swal.fire('تم الحذف!', 'تم حذف المخرجات بنجاح.', 'success')
+                                        .then(() => location.reload());
+                                } else {
+                                    Swal.fire('خطأ', 'حدث خطأ أثناء الحذف.', 'error');
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+
 

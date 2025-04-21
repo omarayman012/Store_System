@@ -1,27 +1,31 @@
-﻿<div id="personal-info" class="shadow">
-    <span class="bg-color"> أضافة المواد </span>
+﻿
+@model Store_Sys.Models.Materials
+
+<form asp-action="CreateMaterial" method="post" class="mt-3">
     <div class="row">
         <!-- اسم المادة -->
         <div class="col-sm-12 col-md-3 mt-3">
-            <label for="subject-name">اسم المادة</label>
-            <input type="text" id="subject-name" class="form-control" placeholder="اسم المادة">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="اسم المادة" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <!-- كود المادة -->
         <div class="col-sm-12 col-md-3 mt-3">
-            <label for="subject-code">كود المادة</label>
-            <input type="text" id="subject-code" class="form-control" placeholder="كود المادة">
+            <label asp-for="Code"></label>
+            <input asp-for="Code" class="form-control" placeholder="كود المادة" />
+            <span asp-validation-for="Code" class="text-danger"></span>
         </div>
 
         <!-- التفاصيل -->
         <div class="col-sm-12 col-md-6 mt-3">
-            <label for="subject-details">التفاصيل</label>
-            <textarea id="subject-details" class="form-control" rows="3" placeholder="تفاصيل المادة"></textarea>
+            <label asp-for="Details"></label>
+            <textarea asp-for="Details" class="form-control" rows="3" placeholder="تفاصيل المادة"></textarea>
+            <span asp-validation-for="Details" class="text-danger"></span>
         </div>
     </div>
-
 
     <div class="col-sm-12 mt-2">
         <input type="submit" class="form-control color-btn" value="حفظ" />
     </div>
-</div>
+</form>

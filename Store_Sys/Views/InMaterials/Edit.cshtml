@@ -1,61 +1,65 @@
-﻿<div id="personal-info" class="shadow mt-3">
-    <span class="bg-color"> تعديل مدخلات </span>
-    <div class="row">
-        <!-- اسم المادة -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="subject-name">اسم المادة</label>
-            <select id="subject-name" class="form-control">
-                <option selected disabled>اختر اسم المادة</option>
+﻿@model Store_Sys.Models.ViewModels.InMaterialsViewModel
 
-            </select>
+@{
+    ViewData["Title"] = "تعديل مدخلات";
+}
+
+<form asp-action="Edit" method="post">
+    <!-- مهم جدًا إرسال الـ Id عشان نعرف السجل اللي هنعدله -->
+    <input type="hidden" asp-for="InMaterial.Id" />
+
+    <div id="personal-info" class="shadow mt-3">
+        <span class="bg-color"> تعديل مدخلات </span>
+        <div class="row">
+            <!-- اسم المادة -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.MaterialCode">اسم المادة</label>
+                <select asp-for="InMaterial.MaterialCode" class="form-control" asp-items="ViewBag.MaterialsList">
+                    <option selected disabled>اختر اسم المادة</option>
+                </select>
+            </div>
+
+            <!-- العدد -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.Quantity">العدد</label>
+                <input asp-for="InMaterial.Quantity" class="form-control" placeholder="العدد" />
+            </div>
+
+            <!-- مصدر المادة -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.Source">مصدر المادة</label>
+                <input asp-for="InMaterial.Source" class="form-control" placeholder="اسم مصدر" />
+            </div>
+
+            <!-- رقم المستند -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.DocumentNumber">رقم المستند</label>
+                <input asp-for="InMaterial.DocumentNumber" class="form-control" placeholder="رقم المستند" />
+            </div>
+
+            <!-- تاريخ الإدخال -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.EntryDate">تاريخ الإدخال</label>
+                <input asp-for="InMaterial.EntryDate" type="date" class="form-control" />
+            </div>
+
+            <!-- اسم الجهة المجهزة لها -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.ReservedFor">اسم الجهة المجهزة لها</label>
+                <input asp-for="InMaterial.ReservedFor" class="form-control" placeholder="اسم الجهة" />
+            </div>
+
+            <!-- سنة التجهيز -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="InMaterial.YearDateId">سنة التجهيز</label>
+                <select asp-for="InMaterial.YearDateId" class="form-control" asp-items="ViewBag.YearsList">
+                    <option selected disabled>اختر السنة</option>
+                </select>
+            </div>
         </div>
 
-        <!-- العدد -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="subject-quantity">العدد</label>
-            <input type="text" id="subject-quantity" class="form-control" placeholder="العدد ">
-
-        </div>
-
-        <!-- مصدر المادة -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="subject-source">مصدر المادة</label>
-            <input type="text" id="subject-source" class="form-control" placeholder="اسم مصدر">
-
-        </div>
-
-        <!-- رقم المستند -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="document-number">رقم المستند</label>
-            <input type="text" id="document-number" class="form-control" placeholder="رقم المستند">
-        </div>
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="document-number"> تاريخ الأدخال</label>
-            <input type="date" id="" class="form-control">
-        </div>
-
-
-        <!-- اسم الجهة المجخزة لها -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="recipient">اسم الجهة المجخزة لها</label>
-            <input type="text" id="recipient" class="form-control" placeholder="اسم الجهة">
-        </div>
-
-        <!-- سنة التجهيز -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="preparation-year">سنة التجهيز</label>
-            <select id="preparation-year" class="form-control">
-                <option selected disabled>اختر السنة</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <!-- أضف المزيد حسب الحاجة -->
-            </select>
+        <div class="col-sm-12 mt-3">
+            <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>
     </div>
-
-
-    <div class="col-sm-12 mt-3">
-        <input type="submit" class="form-control color-btn" value="حفظ" />
-    </div>
-</div>
+</form>

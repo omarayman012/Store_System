@@ -1,89 +1,100 @@
-﻿<div id="personal-info" class="shadow mt-3">
-    <span class="bg-color"> تعدبل مخرجات </span>
-    <div class="row">
-        <!-- اسم المادة -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="subject-name">اسم المادة</label>
-            <select id="subject-name" class="form-control">
-                <option selected disabled>اختر اسم المادة</option>
+﻿@model Store_Sys.Models.ViewModels.OutMaterialsViewModel
 
-            </select>
+@{
+    ViewData["Title"] = "تعديل مخرجات";
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="OutMaterial.Id" />
+
+    <div id="personal-info" class="shadow mt-3">
+        <span class="bg-color">تعديل مخرجات</span>
+        <div class="row">
+            <!-- اسم المادة -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="OutMaterial.MaterialId"></label>
+                <select asp-for="OutMaterial.MaterialId" class="form-control" asp-items="ViewBag.MaterialsList">
+                    <option disabled selected>اختر اسم المادة</option>
+                </select>
+                <span asp-validation-for="OutMaterial.MaterialId" class="text-danger"></span>
+            </div>
+
+            <!-- العدد -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="OutMaterial.Quantity"></label>
+                <input asp-for="OutMaterial.Quantity" class="form-control" placeholder="العدد" />
+                <span asp-validation-for="OutMaterial.Quantity" class="text-danger"></span>
+            </div>
+
+            <!-- نوع الإخراج -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="OutMaterial.OutputType"></label>
+                <select asp-for="OutMaterial.OutputType" class="form-control" asp-items="ViewBag.OutputTypes" onchange="toggleOutputOptions()">
+                    <option disabled selected>اختر نوع الإخراج</option>
+                </select>
+                <span asp-validation-for="OutMaterial.OutputType" class="text-danger"></span>
+            </div>
+
+            <!-- الشخص -->
+            <div class="col-sm-12 col-md-4 mt-3 @(Model.OutMaterial.OutputType == OutputType.Personal ? "" : "d-none")" id="person-dropdown">
+                <label asp-for="OutMaterial.PersonId"></label>
+                <select asp-for="OutMaterial.PersonId" class="form-control" asp-items="ViewBag.PersonsList">
+                    <option disabled selected>اختر الشخص</option>
+                </select>
+                <span asp-validation-for="OutMaterial.PersonId" class="text-danger"></span>
+            </div>
+
+            <!-- القسم -->
+            <div class="col-sm-12 col-md-4 mt-3 @(Model.OutMaterial.OutputType == OutputType.Department ? "" : "d-none")" id="department-dropdown">
+                <label asp-for="OutMaterial.DepartmentId"></label>
+                <select asp-for="OutMaterial.DepartmentId" class="form-control" asp-items="ViewBag.DepartmentsList">
+                    <option disabled selected>اختر القسم</option>
+                </select>
+                <span asp-validation-for="OutMaterial.DepartmentId" class="text-danger"></span>
+            </div>
+
+            <!-- المصدر -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="OutMaterial.Source"></label>
+                <input asp-for="OutMaterial.Source" class="form-control" placeholder="اسم المصدر" />
+                <span asp-validation-for="OutMaterial.Source" class="text-danger"></span>
+            </div>
+
+            <!-- رقم المستند -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label asp-for="OutMaterial.DocumentNumber"></label>
+                <input asp-for="OutMaterial.DocumentNumber" class="form-control" placeholder="رقم المستند" />
+                <span asp-validation-for="OutMaterial.DocumentNumber" class="text-danger"></span>
+            </div>
         </div>
 
-        <!-- العدد -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="subject-quantity">العدد</label>
-            <input type="text" id="subject-quantity" class="form-control" placeholder="العدد ">
-
+        <div class="col-sm-12 mt-3">
+            <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>
-        <!-- نوع الإخراج -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="output-type">نوع الإخراج</label>
-            <select id="output-type" class="form-control" onchange="toggleOutputOptions()">
-                <option selected disabled>اختر نوع الإخراج</option>
-                <option value="personal">إخراج شخصي</option>
-                <option value="department">إخراج قسم</option>
-            </select>
-        </div>
-
-        <!-- اختر الشخص -->
-        <div class="col-sm-12 col-md-4 mt-3 d-none" id="person-dropdown">
-            <label for="person">اختر الشخص</label>
-            <select id="person" class="form-control">
-                <option selected disabled>اختر الشخص</option>
-                <option value="person1">محمد علي</option>
-                <option value="person2">أحمد حسين</option>
-                <!-- أضف المزيد -->
-            </select>
-        </div>
-
-        <!-- اختر القسم -->
-        <div class="col-sm-12 col-md-4 mt-3 d-none" id="department-dropdown">
-            <label for="department">اختر القسم</label>
-            <select id="department" class="form-control">
-                <option selected disabled>اختر القسم</option>
-                <option value="math-dept">قسم الرياضيات</option>
-                <option value="science-dept">قسم العلوم</option>
-                <!-- أضف المزيد -->
-            </select>
-        </div>
-        <!-- مصدر المادة -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="subject-source">مصدر المادة</label>
-            <input type="text" id="subject-source" class="form-control" placeholder="اسم مصدر">
-
-        </div>
-
-        <!-- رقم المستند -->
-        <div class="col-sm-12 col-md-4 mt-3">
-            <label for="document-number">رقم المستند</label>
-            <input type="text" id="document-number" class="form-control" placeholder="رقم المستند">
-        </div>
-
-
-
     </div>
+</form>
 
+@section Scripts {
+    <script>
+        function toggleOutputOptions() {
+            const type = document.getElementById("OutMaterial_OutputType").value;
+            const personDiv = document.getElementById("person-dropdown");
+            const deptDiv = document.getElementById("department-dropdown");
 
-    <div class="col-sm-12 mt-3">
-        <input type="submit" class="form-control color-btn" value="حفظ" />
-    </div>
-</div>
-<script>
-    function toggleOutputOptions() {
-        const type = document.getElementById("output-type").value;
-        const personDiv = document.getElementById("person-dropdown");
-        const deptDiv = document.getElementById("department-dropdown");
-
-        if (type === "personal") {
-            personDiv.classList.remove("d-none");
-            deptDiv.classList.add("d-none");
-        } else if (type === "department") {
-            deptDiv.classList.remove("d-none");
-            personDiv.classList.add("d-none");
-        } else {
-            personDiv.classList.add("d-none");
-            deptDiv.classList.add("d-none");
+            if (type === "1") { // Personal
+                personDiv.classList.remove("d-none");
+                deptDiv.classList.add("d-none");
+            } else if (type === "2") { // Department
+                deptDiv.classList.remove("d-none");
+                personDiv.classList.add("d-none");
+            } else {
+                personDiv.classList.add("d-none");
+                deptDiv.classList.add("d-none");
+            }
         }
-    }
-</script>
+
+        // لتفعيل الخيارات حسب القيمة الحالية عند تحميل الصفحة
+        document.addEventListener("DOMContentLoaded", toggleOutputOptions);
+    </script>
+}
+
