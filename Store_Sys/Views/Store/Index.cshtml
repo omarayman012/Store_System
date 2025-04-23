@@ -1,0 +1,113 @@
+﻿<style>
+    /* From Uiverse.io by alexmaracinaru */
+    .cta {
+        position: relative;
+        margin: auto;
+        padding: 12px 18px;
+        transition: all 0.2s ease;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #b1dae7;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
+        }
+
+</style>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+@if (TempData["Success"] != null)
+{
+    <div id="success-message" class="mt-3" style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
+        @TempData["Success"]
+    </div>
+}
+<div class="mt-5">
+    <div id="personal-info" class="shadow">
+        <span class="bg-color"> بيانات المواد </span>
+        <p>
+            هذه الصفحة تعرض بيانات كل المواد من مدخلات ومخرجات ومتبقي
+        </p>
+
+    </div>
+
+    <div id="personal-info" class="shadow">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">أسم المادة</th>
+                        <th scope="col">الكود</th>
+                        <th scope="col">عدد المدخلات</th>
+                        <th scope="col">عدد المخرجات</th>
+                        <th scope="col">  المتبقي   </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                     
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
