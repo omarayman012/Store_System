@@ -85,7 +85,15 @@
                     <td class="row-index">1</td>
 
                     <td>
-                        <input type="text" name="subjectName" class="form-control" placeholder="اكتب اسم المادة" required>
+                        <select name="subjectName" class="form-select" required>
+                            <option value="" selected disabled>اختر اسم المادة...</option>
+                            <option value="arabic">اللغة العربية</option>
+                            <option value="english">اللغة الإنجليزية</option>
+                            <option value="math">الرياضيات</option>
+                            <option value="science">العلوم</option>
+                            <option value="history">التاريخ</option>
+                            <!-- أضف المزيد حسب حاجتك -->
+                        </select>
                     </td>
 
                     <td>
