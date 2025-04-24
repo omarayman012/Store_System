@@ -41,6 +41,246 @@
     .icon-btn i {
         pointer-events: none;
     }
+
+    div.searchable {
+        width: 97%;
+        position: relative;
+    }
+
+    .searchable input {
+        width: 100%;
+        height: 40px;
+        font-size: 18px;
+        padding: 2px 10px;
+        box-sizing: border-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+
+    .searchable ul {
+        display: none;
+        list-style-type: none;
+        background-color: #fff;
+        border-radius: 0 0 5px 5px;
+        border: 1px solid #add8e6;
+        border-top: none;
+        max-height: 180px;
+        margin: 0;
+        overflow-y: scroll;
+        padding: 0;
+        position: absolute;
+        width: 100%;
+        z-index: 1000;
+    }
+
+        .searchable ul li {
+            padding: 7px 9px;
+            border-bottom: 1px solid #e1e1e1;
+            cursor: pointer;
+            color: #6e6e6e;
+        }
+
+            .searchable ul li.selected {
+                background-color: #e8e8e8;
+                color: #333;
+            }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="date"], textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="file"] {
+        display: inline-block;
+    }
+
+    .multi-select {
+        display: flex;
+        box-sizing: border-box;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        user-select: none;
+    }
+
+        .multi-select .multi-select-header {
+            border: 1px solid #dee2e6;
+            padding: 7px 30px 7px 12px;
+            overflow: hidden;
+            gap: 7px;
+            min-height: 45px;
+        }
+
+            .multi-select .multi-select-header::after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23949ba3' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+                height: 12px;
+                width: 12px;
+            }
+
+
+
+
+
+
+            .multi-select .multi-select-header.multi-select-header-active {
+                border-color: #c1c9d0;
+            }
+
+                .multi-select .multi-select-header.multi-select-header-active::after {
+                    transform: translateY(-50%) rotate(180deg);
+                }
+
+                .multi-select .multi-select-header.multi-select-header-active + .multi-select-options {
+                    display: flex;
+                }
+
+            .multi-select .multi-select-header .multi-select-header-placeholder {
+                color: #65727e;
+            }
+
+            .multi-select .multi-select-header .multi-select-header-option {
+                display: inline-flex;
+                align-items: center;
+                background-color: #f3f4f7;
+                font-size: 14px;
+                padding: 3px 8px;
+                border-radius: 5px;
+            }
+
+            .multi-select .multi-select-header .multi-select-header-max {
+                font-size: 14px;
+                color: #65727e;
+            }
+
+        .multi-select .multi-select-options {
+            display: none;
+            box-sizing: border-box;
+            flex-flow: wrap;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+            .multi-select .multi-select-options::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .multi-select .multi-select-options::-webkit-scrollbar-track {
+                background: #f0f1f3;
+            }
+
+            .multi-select .multi-select-options::-webkit-scrollbar-thumb {
+                background: #cdcfd1;
+            }
+
+                .multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {
+                    background: #b2b6b9;
+                }
+
+            .multi-select .multi-select-options .multi-select-option, .multi-select .multi-select-options .multi-select-all {
+                padding: 4px 12px;
+                height: 42px;
+            }
+
+                .multi-select .multi-select-options .multi-select-option .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all .multi-select-option-radio {
+                    margin-right: 14px;
+                    height: 16px;
+                    width: 16px;
+                    border: 1px solid #ced4da;
+                    border-radius: 4px;
+                }
+
+                .multi-select .multi-select-options .multi-select-option .multi-select-option-text, .multi-select .multi-select-options .multi-select-all .multi-select-option-text {
+                    box-sizing: border-box;
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    color: inherit;
+                    font-size: 16px;
+                    line-height: 20px;
+                }
+
+                .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio {
+                    border-color: #40c979;
+                    background-color: #40c979;
+                }
+
+                    .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio::after, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio::after {
+                        content: "";
+                        display: block;
+                        width: 3px;
+                        height: 7px;
+                        margin: 0.12em 0 0 0.27em;
+                        border: solid #fff;
+                        border-width: 0 0.15em 0.15em 0;
+                        transform: rotate(45deg);
+                    }
+
+                .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-text, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-text {
+                    color: #40c979;
+                }
+
+                .multi-select .multi-select-options .multi-select-option:hover, .multi-select .multi-select-options .multi-select-option:active, .multi-select .multi-select-options .multi-select-all:hover, .multi-select .multi-select-options .multi-select-all:active {
+                    background-color: #f3f4f7;
+                }
+
+            .multi-select .multi-select-options .multi-select-all {
+                border-bottom: 1px solid #f1f3f5;
+                border-radius: 0;
+            }
+
+            .multi-select .multi-select-options .multi-select-search {
+                padding: 7px 10px;
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                margin: 10px 10px 5px 10px;
+                width: 100%;
+                outline: none;
+                font-size: 16px;
+            }
+
+                .multi-select .multi-select-options .multi-select-search::placeholder {
+                    color: #b2b5b9;
+                }
+
+        .multi-select .multi-select-header, .multi-select .multi-select-option, .multi-select .multi-select-all {
+            display: flex;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+            align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            font-size: 16px;
+            color: #212529;
+        }
 </style>
 
 <div class="mt-5">
@@ -49,14 +289,105 @@
 
         <!-- معلومات المستند -->
         <div class="row">
-            <div class="col-sm-12 col-md-3 mt-3">
+            <div class="col-sm-12 col-md-2 mt-3">
                 <label class="form-label">رقم المستند</label>
                 <input class="form-control" placeholder="أدخل رقم مستند" required />
             </div>
-            <div class="col-sm-12 col-md-3 mt-3">
+            <div class="col-sm-12 col-md-2 mt-3">
                 <label class="form-label">تاريخ المستند</label>
                 <input class="form-control" type="date" required />
             </div>
+                <!-- اسم الجهة المُجهز لها -->
+            <!-- نوع الجهة: شخص أو قسم -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">اسم الجهة المُجهز لها</label>
+                <select class="form-select" id="entityType" required onchange="toggleSearchableFields()">
+                    <option value="">اختر نوع الجهة</option>
+                    <option value="person">شخص</option>
+                    <option value="department">قسم</option>
+                </select>
+            </div>
+
+            <!-- اختيار الموظف -->
+            <div class="col-sm-12 col-md-2 mt-3 d-none" id="personSearch">
+                <div class="searchable">
+                    <label class="form-label">أختر الموظف</label>
+                    <input type="text" placeholder="اختر الموظف" class="form-control" onkeyup="filterFunction(this, 'personList')" />
+                    <ul id="personList">
+                        <li data-value="1" onclick="selectEmployee(this)">أحمد محمد</li>
+                        <li data-value="2" onclick="selectEmployee(this)">منى علي</li>
+                        <li data-value="3" onclick="selectEmployee(this)">سعيد يوسف</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- اختيار القسم -->
+            <div class="col-sm-12 col-md-2 mt-3 d-none" id="departmentSearch">
+                <div class="searchable">
+                    <label class="form-label">أختر القسم</label>
+                    <input type="text" placeholder="اختر القسم" class="form-control" onkeyup="filterFunction(this, 'departmentList')" />
+                    <ul id="departmentList">
+                        <li data-value="1" onclick="selectEmployee(this)">قسم المالية</li>
+                        <li data-value="2" onclick="selectEmployee(this)">قسم الموارد البشرية</li>
+                        <li data-value="3" onclick="selectEmployee(this)">قسم المشتريات</li>
+                    </ul>
+                </div>
+            </div>
+
+                <!-- رقم الطلب -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">رقم الطلب</label>
+                    <input type="text" class="form-control" placeholder="أدخل رقم الطلب" required />
+                </div>
+
+                <!-- تاريخ الطلب -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">تاريخ الطلب</label>
+                    <input type="date" class="form-control" required />
+                </div>
+
+                <!-- مصدر الصرف -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">مصدر الصرف</label>
+                    <select class="form-select" required>
+                        <option value="">اختر المصدر</option>
+                        <option value="صندوق">صندوق</option>
+                        <option value="عام">عام</option>
+                        <option value="هدايا">هدايا</option>
+                    </select>
+                </div>
+
+                <!-- رقم الموافقة على التجهيز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">رقم الموافقة على التجهيز</label>
+                    <input type="text" class="form-control" placeholder="أدخل رقم الموافقة" required />
+                </div>
+
+                <!-- تاريخ الموافقة على التجهيز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">تاريخ الموافقة على التجهيز</label>
+                    <input type="date" class="form-control" required />
+                </div>
+
+                <!-- اسم المُجهز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">اسم المُجهز</label>
+                    <select class="form-select" required>
+                        <option value="">اختر المُجهز</option>
+                        <!-- هنا يتم إدراج أسماء من جدول person -->
+                        <option value="1">أحمد علي</option>
+                        <option value="2">منى محمد</option>
+                        <!-- أضف المزيد حسب قاعدة البيانات -->
+                    </select>
+                </div>
+
+                <!-- اسم المُجهز له -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">اسم المُجهز له</label>
+                    <input type="text" class="form-control" placeholder="أدخل اسم المُجهز له" required />
+                </div>
+            
+
         </div>
 
         <hr>
@@ -123,6 +454,39 @@
         </div>
     </div>
 </div>
+<!-- JavaScript -->
+<script>
+    function toggleSearchableFields() {
+        const selected = document.getElementById('entityType').value;
+        const personSearch = document.getElementById('personSearch');
+        const departmentSearch = document.getElementById('departmentSearch');
+
+        personSearch.classList.add('d-none');
+        departmentSearch.classList.add('d-none');
+
+        if (selected === 'person') {
+            personSearch.classList.remove('d-none');
+        } else if (selected === 'department') {
+            departmentSearch.classList.remove('d-none');
+        }
+    }
+
+    function filterFunction(input, listId) {
+        const filter = input.value.toUpperCase();
+        const ul = document.getElementById(listId);
+        const li = ul.getElementsByTagName('li');
+
+        for (let i = 0; i < li.length; i++) {
+            const txtValue = li[i].textContent || li[i].innerText;
+            li[i].style.display = txtValue.toUpperCase().includes(filter) ? '' : 'none';
+        }
+    }
+
+    function selectEmployee(li) {
+        const input = li.closest('.searchable').querySelector('input');
+        input.value = li.textContent;
+    }
+</script>
 
 <script>
     /* ––– إعدادات عامة ––– */
@@ -181,3 +545,198 @@
     fillYears(document.querySelector('select[name="supplyYear"]'));
     refreshIndices();
 </script>
+<script>
+    $(document).ready(function () {
+        $('#dropdownDisplay').on('click', function () {
+            $('#dropdownContent').toggle();
+        });
+
+        $('#searchInput').on('input', function () {
+            let value = $(this).val().toLowerCase();
+            $('#dropdownList li').filter(function () {
+                $(this).toggle($(this).text()
+                       .toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        $('#dropdownList').on('click', 'li', function () {
+            $('#dropdownDisplay').text($(this).text());
+            $('#dropdownContent').hide();
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.search-dropdown').length) {
+                $('#dropdownContent').hide();
+            }
+        });
+    });
+</script>
+<!-- ‎Scripts ‎-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        // Search button click event
+        $('#searchButton').click(function () {
+            debugger;
+            var citiesIds = $('#CitiesIds').val() || [];
+
+            $.ajax({
+                url: '/EmployeeSalaries/GetUsers',
+                type: 'GET',
+                data: { citiesIds: JSON.stringify(citiesIds) },
+                success: function (data) {
+                    debugger;
+                    var usersDropdown = $('#UsersIds');
+                    usersDropdown.empty().hide();
+
+                    if (data && Array.isArray(data) && data.length > 0) {
+                        $.each(data, function (index, item) {
+                            if (item.value && item.text) {
+                                usersDropdown.append(`<li data-value="${item.value}" onclick="selectEmployee(this)">${item.text}</li>`);
+                            }
+                        });
+                        usersDropdown.show();
+                    } else {
+                        usersDropdown.append(`<li class="text-muted">No employees found</li>`).show();
+                    }
+                },
+                error: function () {
+                    alert('Error loading employees. Please try again.');
+                }
+            });
+        });
+    });
+
+    // Function to show employee list when input is clicked
+    function showEmployeeList() {
+        $('#UsersIds').toggle();
+    }
+
+    // Function to select an employee
+    function selectEmployee(element) {
+        var selectedValue = $(element).data('value');
+        var selectedText = $(element).text();
+
+        $('#selectedEmployee').val(selectedValue);
+        $('#employeeInput').val(selectedText);
+        $('#UsersIds').hide();
+    }
+</script>
+
+<script>
+    function filterFunction(input, listId) {
+        const filter = input.value.toLowerCase();
+        const list = document.getElementById(listId);
+        const items = list.getElementsByTagName("li");
+
+        for (let i = 0; i < items.length; i++) {
+            const text = items[i].innerText || items[i].textContent;
+            items[i].style.display = text.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+        }
+    }
+
+    function selectEmployee(listItem) {
+        // Highlight the selected item
+        const list = document.getElementById("UsersIds");
+        const items = list.getElementsByTagName("li");
+        for (let i = 0; i < items.length; i++) {
+            items[i].classList.remove("selected");
+        }
+        listItem.classList.add("selected");
+
+        // Set the selected employee's value in the hidden input
+        const employeeValue = listItem.getAttribute("data-value");
+        document.getElementById("selectedEmployee").value = employeeValue;
+    }
+
+    function confirmSelection() {
+        const selectedEmployee = document.getElementById("selectedEmployee").value;
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (!selectedEmployee) {
+            errorMessage.innerText = "يرجى اختيار موظف.";
+        } else {
+            errorMessage.innerText = ""; // Clear any previous error
+            document.getElementById("employeeForm").submit(); // Navigate to AddSalary action
+        }
+    }
+
+</script>
+
+<script>
+    function filterFunction(that, event) {
+        let container = that.closest(".searchable");
+        let input_val = that.value.toUpperCase();
+        let ul = container.querySelector("ul");
+        let li = ul.getElementsByTagName("li");
+
+        ul.style.display = input_val ? "block" : "none";
+
+        for (let i = 0; i < li.length; i++) {
+            let txtValue = li[i].textContent || li[i].innerText;
+            li[i].style.display = txtValue.toUpperCase().indexOf(input_val) > -1 ? "" : "none";
+        }
+
+        if (["ArrowDown", "ArrowUp", "Enter"].indexOf(event.key) != -1) {
+            keyControl(event, container);
+        } else {
+            let visibleItems = container.querySelectorAll("ul li:not([style*='display: none'])");
+            if (visibleItems.length > 0) {
+                visibleItems[0].classList.add("selected");
+            }
+        }
+    }
+
+    function keyControl(e, container) {
+        let selected = container.querySelector("ul li.selected");
+        let visibleItems = container.querySelectorAll("ul li:not([style*='display: none'])");
+
+        if (e.key == "ArrowDown") {
+            if (!selected) {
+                visibleItems[0].classList.add("selected");
+            } else if (selected && selected.nextElementSibling) {
+                selected.classList.remove("selected");
+                selected.nextElementSibling.classList.add("selected");
+            }
+        } else if (e.key == "ArrowUp") {
+            if (selected && selected.previousElementSibling) {
+                selected.classList.remove("selected");
+                selected.previousElementSibling.classList.add("selected");
+            }
+        } else if (e.key == "Enter") {
+            if (selected) {
+                container.querySelector("input").value = selected.textContent;
+                container.querySelector("ul").style.display = "none";
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll(".searchable input").forEach(function (input) {
+            input.addEventListener('focus', function () {
+                let ul = this.closest(".searchable").querySelector("ul");
+                ul.style.display = "block";
+            });
+
+            input.addEventListener('blur', function () {
+                let that = this;
+                setTimeout(function () {
+                    let ul = that.closest(".searchable").querySelector("ul");
+                    ul.style.display = "none";
+                }, 200);
+            });
+        });
+
+        document.querySelectorAll(".searchable ul li").forEach(function (item) {
+            item.addEventListener('click', function () {
+                let input = this.closest(".searchable").querySelector("input");
+                input.value = this.textContent;
+                input.blur();
+            });
+        });
+    });
+</script>
+

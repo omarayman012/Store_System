@@ -47,15 +47,58 @@
     <div id="personal-info" class="shadow p-3">
         <span class="bg-color d-inline-block px-2 mb-2">إضافة مستند جديد مدخل</span>
 
-        <!-- معلومات المستند -->
         <div class="row">
-            <div class="col-sm-12 col-md-3 mt-3">
+            <!-- رقم المستند -->
+            <div class="col-sm-12 col-md-2 mt-3">
                 <label class="form-label">رقم المستند</label>
                 <input class="form-control" placeholder="أدخل رقم مستند" required />
             </div>
-            <div class="col-sm-12 col-md-3 mt-3">
+
+            <!-- تاريخ المستند -->
+            <div class="col-sm-12 col-md-2 mt-3">
                 <label class="form-label">تاريخ المستند</label>
                 <input class="form-control" type="date" required />
+            </div>
+
+            <!-- اسم الجهة المجهزة -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">اسم الجهة المجهزة</label>
+                <input type="text" class="form-control" required placeholder="أدخل اسم الجهة" />
+            </div>
+
+            <!-- رقم الطلب -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">رقم الطلب</label>
+                <input type="text" class="form-control" required placeholder="أدخل رقم الطلب" />
+            </div>
+
+            <!-- تاريخ الطلب -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">تاريخ الطلب</label>
+                <input type="date" class="form-control" required />
+            </div>
+
+            <!-- رقم الموافقة على التجهيز -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">رقم الموافقة على التجهيز</label>
+                <input type="text" class="form-control" required placeholder="أدخل رقم الموافقة" />
+            </div>
+
+            <!-- تاريخ الموافقة على التجهيز -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">تاريخ الموافقة على التجهيز</label>
+                <input type="date" class="form-control" required />
+            </div>
+
+            <!-- مصدر الصرف -->
+            <div class="col-sm-12 col-md-2 mt-3">
+                <label class="form-label">مصدر الصرف</label>
+                <select class="form-select" required>
+                    <option value="">اختر المصدر</option>
+                    <option value="صندوق">صندوق</option>
+                    <option value="عام">عام</option>
+                    <option value="هدايا">هدايا</option>
+                </select>
             </div>
         </div>
 
@@ -68,7 +111,6 @@
                 <tr>
                     <th>#</th>
                     <th>اسم المادة</th>
-                    <th>مصدر المادة</th>
                     <th>الوحدة</th>
                     <th>العدد</th>
                     <th>الثمن</th>
@@ -96,7 +138,6 @@
                             <option value="history">التاريخ</option>
                         </select>
                     </td>
-                    <td><input type="text" name="source" class="form-control" placeholder="مصدر المادة" required></td>
                     <td>
                         <select name="unit" class="form-select" required>
                             <option value="" selected disabled>اختر الوحدة…</option>
