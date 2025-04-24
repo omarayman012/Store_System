@@ -1,0 +1,163 @@
+﻿<style>
+    /* From Uiverse.io by alexmaracinaru */
+    .cta {
+        position: relative;
+        margin: auto;
+        padding: 12px 18px;
+        transition: all 0.2s ease;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #b1dae7;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
+        }
+
+</style>
+
+<div class="mt-5">
+    <div id="personal-info" class="shadow">
+        <span class="bg-color"> بيانات مخرجات المستندات </span>
+        <p>
+            هذه الصفحة تعرض بيانات كل الجلسات  الخاصة  بمخرجات المستندات
+        </p>
+
+    </div>
+
+    <div id="personal-info" class="shadow">
+        <div class="row my-3">
+            <div class="col-sm-12 col-md-6 col-lg-2">
+                <a href="@Url.Action("AddFile","OutFiles")">
+                    <button class="cta">
+                        <span>إضافة مستند</span>
+                        <svg width="15px" height="15px" viewBox="0 0 20 20">
+                            <line x1="10" y1="3" x2="10" y2="17" stroke="black" stroke-width="2"></line>
+                            <line x1="3" y1="10" x2="17" y2="10" stroke="black" stroke-width="2"></line>
+                        </svg>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">رقم المستند</th>
+                        <th scope="col">تاريخ المستند</th>
+                        <th scope="col">تعديل</th>
+                        <th scope="col">  حذف   </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="@Url.Action("EditFile", "OutFiles")" class="btn text-dark">
+                                <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px;">
+                            </a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn text-dark delete-material" style="border:none;background:transparent;">
+                                <img src="/images/trash.png" alt="حذف" style="width:30px;height:30px;">
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // استهداف كل أزرار الحذف (حتى المضافة ديناميكياً)
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.delete-material')) {
+        const btn = e.target.closest('.delete-material');
+        const row = btn.closest('tr');
+
+        // نافذة التأكيد
+        Swal.fire({
+          title: 'هل أنت متأكد؟',
+          text: 'سيتم حذف هذا الصف نهائيًا!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'نعم، احذف',
+          cancelButtonText: 'إلغاء',
+          reverseButtons: true,
+          confirmButtonColor: '#d33'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            row.remove();          // حذف الصف
+            renumberRows();        // أعد الترقيم إن كان لديك هذه الدالة
+            Swal.fire({
+              title: 'تم الحذف!',
+              text: 'تم حذف الصف بنجاح.',
+              icon: 'success',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          }
+        });
+      }
+    });
+
+    // مثال لدالة إعادة الترقيم إن كنت تستعملها
+    function renumberRows() {
+      document.querySelectorAll('#subjectsBody .row-index')
+              .forEach((cell, idx) => cell.textContent = idx + 1);
+    }
+</script>
+
+

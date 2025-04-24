@@ -12,25 +12,19 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","InFiles")">مدخلات المستندات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","OutFiles")">مخرجات المستندات</a>
+                    </li>
                     
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Materials")">المواد</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","InMaterials")">المدخلات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","OutMaterials")">المخرجات</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index","Store")">الفهرس</a>
                     </li>
                 </ul>
-                
             </div>
         </nav>
     </header>
