@@ -30,7 +30,32 @@
                 <label asp-for="InMaterial.Source">مصدر المادة</label>
                 <input asp-for="InMaterial.Source" class="form-control" placeholder="اسم مصدر" />
             </div>
+            <!-- الثمن -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label class="form-label">الثمن</label>
+                <input type="text" class="form-control" placeholder="" required>
+                <div class="invalid-feedback">يُرجى إدخال الثمن.</div>
+            </div>
 
+            <!-- الوحدة -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label class="form-label">الوحدة</label>
+                <select class="form-select" required>
+                    <option value="" selected disabled>اختر الوحدة</option>
+                    <option value="kg">كيلوجرام</option>
+                    <option value="l">لتر</option>
+                    <option value="pc">قطعة</option>
+                    <!-- أضف وحدات أخرى حسب الحاجة -->
+                </select>
+                <div class="invalid-feedback">يُرجى اختيار الوحدة.</div>
+            </div>
+
+            <!-- السعر -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label class="form-label">السعر</label>
+                <input type="text" class="form-control" placeholder=" " required>
+                <div class="invalid-feedback">يُرجى إدخال السعر.</div>
+            </div>
             <!-- رقم المستند -->
             <div class="col-sm-12 col-md-4 mt-3">
                 <label asp-for="InMaterial.DocumentNumber">رقم المستند</label>
@@ -57,7 +82,11 @@
                 </select>
             </div>
         </div>
-
+        <!-- التفاصيل -->
+        <div class="col-12">
+            <label class="form-label">التفاصيل</label>
+            <textarea class="form-control" rows="3" placeholder="أضف أي ملاحظات إضافية"></textarea>
+        </div>
         <div class="col-sm-12 mt-3">
             <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>

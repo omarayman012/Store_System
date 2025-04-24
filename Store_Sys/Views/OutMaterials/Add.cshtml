@@ -4,8 +4,8 @@
     ViewData["Title"] = "إضافة مخرجات";
 }
 
-<div class="shadow mt-3 p-3 rounded bg-white">
-    <h4 class="mb-3 text-center bg-color p-2 text-white rounded">إضافة مخرجات</h4>
+<div id="personal-info" class="shadow mt-3">
+    <span class="bg-color">إضافة مخرجات</span>
 
     <form asp-action="Create" method="post">
         @Html.AntiForgeryToken()
@@ -59,14 +59,43 @@
                 <input asp-for="OutMaterial.Source" class="form-control" placeholder="مصدر المادة" />
                 <span asp-validation-for="OutMaterial.Source" class="text-danger"></span>
             </div>
+            <!-- الثمن -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label class="form-label">الثمن</label>
+                <input type="text" class="form-control" placeholder="" required>
+                <div class="invalid-feedback">يُرجى إدخال الثمن.</div>
+            </div>
 
+            <!-- الوحدة -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label class="form-label">الوحدة</label>
+                <select class="form-select" required>
+                    <option value="" selected disabled>اختر الوحدة</option>
+                    <option value="kg">كيلوجرام</option>
+                    <option value="l">لتر</option>
+                    <option value="pc">قطعة</option>
+                    <!-- أضف وحدات أخرى حسب الحاجة -->
+                </select>
+                <div class="invalid-feedback">يُرجى اختيار الوحدة.</div>
+            </div>
+
+            <!-- السعر -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label class="form-label">السعر</label>
+                <input type="text" class="form-control" placeholder=" " required>
+                <div class="invalid-feedback">يُرجى إدخال السعر.</div>
+            </div>
             <!-- رقم المستند -->
             <div class="col-md-4 mt-3">
                 <label asp-for="OutMaterial.DocumentNumber"></label>
                 <input asp-for="OutMaterial.DocumentNumber" class="form-control" placeholder="رقم المستند" />
                 <span asp-validation-for="OutMaterial.DocumentNumber" class="text-danger"></span>
             </div>
-
+            <!-- التفاصيل -->
+            <div class="col-12">
+                <label class="form-label">التفاصيل</label>
+                <textarea class="form-control" rows="3" placeholder="أضف أي ملاحظات إضافية"></textarea>
+            </div>
         </div>
         <div class="col-sm-12 mt-3">
             <input type="submit" class="form-control color-btn" value="حفظ" />
