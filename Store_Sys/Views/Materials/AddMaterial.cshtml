@@ -1,0 +1,50 @@
+﻿
+@model Store_Sys.Models.Materials
+
+<form asp-action="CreateMaterial" method="post" class="mt-3">
+    <div class="row">
+        <!-- اسم المادة -->
+        <div class="col-sm-12 col-md-3 mt-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="اسم المادة" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- كود المادة -->
+        <div class="col-sm-12 col-md-3 mt-3">
+            <label asp-for="Code"></label>
+            <input asp-for="Code" class="form-control" placeholder="كود المادة" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+
+        <!-- التفاصيل -->
+        <div class="col-sm-12 col-md-6 mt-3">
+            <label asp-for="Details"></label>
+            <textarea asp-for="Details" class="form-control" rows="3" placeholder="تفاصيل المادة"></textarea>
+            <span asp-validation-for="Details" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-sm-12 mt-2">
+        <input type="submit" class="form-control color-btn" value="حفظ" />
+    </div>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("form").on("submit", function(event) {
+            var code = $("#Code").val(); // الحصول على قيمة الكود
+            $.ajax({
+                url: '@Url.Action("CheckCode", "Materials")', // استبدال بـ URL مناسب
+                type: 'GET',
+                data: { code: code },
+                success: function(response) {
+                    if (response.exists) {
+                        alert("كود المادة موجود بالفعل.");
+                        event.preventDefault(); // منع إرسال النموذج
+                    }
+                }
+            });
+        });
+    });
+</script>
