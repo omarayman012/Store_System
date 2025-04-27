@@ -43,7 +43,6 @@ namespace Store_Sys.Controllers
                 return RedirectToAction("Index");
             
 
-            return View("AddMaterial", material);
         }
 
         [HttpGet]

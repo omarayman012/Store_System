@@ -1,9 +1,10 @@
-﻿<!-- Bootstrap RTL + Icons -->
+﻿@model Store_Sys.Models.ViewModels.InFileViewModel
+
+<!-- Bootstrap RTL + Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
 <style>
-    /* زر أيقونة دائري */
     .icon-btn {
         --size: 36px;
         width: var(--size);
@@ -15,23 +16,22 @@
         justify-content: center;
         font-size: 1rem;
         cursor: pointer;
-        transition: transform .2s ease,box-shadow .2s ease;
-        box-shadow: 0 2px 4px rgba(0,0,0,.15);
+        transition: transform .2s ease, box-shadow .2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .15);
         color: #fff;
     }
 
     .icon-add {
         background: #28c76f;
     }
-    /* أخضر */
+
     .icon-del {
         background: #ea5455;
     }
-    /* أحمر */
 
     .icon-btn:hover {
         transform: scale(1.12) rotate(5deg);
-        box-shadow: 0 4px 8px rgba(0,0,0,.25);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
     }
 
     .icon-btn:active {
@@ -42,183 +42,212 @@
         pointer-events: none;
     }
 </style>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info text-center">
+        @ViewBag.Message
+    </div>
+}
+<form asp-action="AddFile" asp-controller="InFiles" method="post">
+    <div class="mt-5">
+        <div id="personal-info" class="shadow p-3">
+            <span class="bg-color d-inline-block px-2 mb-2">إضافة مستند جديد مدخل</span>
+            <div class="row">
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">رقم المستند</label>
+                    <input type="number" class="form-control" asp-for="InFile.DocumentNum" required />
+                    <span asp-validation-for="InFile.DocumentNum" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">تاريخ المستند</label>
+                    <input type="date" class="form-control" asp-for="InFile.Documentdate" @* value="@DateTime.Now.ToString("yyyy-MM-dd")" *@required />
+                    <span asp-validation-for="InFile.Documentdate" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">اسم الجهة المجهزة</label>
+                    <input type="text" class="form-control" asp-for="InFile.NameSupplier" required />
+                    <span asp-validation-for="InFile.NameSupplier" class="text-danger"></span>
 
-<div class="mt-5">
-    <div id="personal-info" class="shadow p-3">
-        <span class="bg-color d-inline-block px-2 mb-2">إضافة مستند جديد مدخل</span>
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">رقم الطلب</label>
+                    <input type="number" class="form-control" asp-for="InFile.OrderNum" required />
+                    <span asp-validation-for="InFile.OrderNum" class="text-danger"></span>
 
-        <div class="row">
-            <!-- رقم المستند -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم المستند</label>
-                <input class="form-control" placeholder="أدخل رقم مستند" required />
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">تاريخ الطلب</label>
+                    <input type="date" class="form-control" asp-for="InFile.OrderDate" required />
+                    <span asp-validation-for="InFile.OrderDate" class="text-danger"></span>
+
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">رقم الموافقة على التجهيز</label>
+                    <input type="number" class="form-control" asp-for="InFile.ApprovalNum" required />
+                    <span asp-validation-for="InFile.ApprovalNum" class="text-danger"></span>
+
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">تاريخ الموافقة على التجهيز</label>
+                    <input type="date" class="form-control" asp-for="InFile.ApprovalDate" required />
+                    <span asp-validation-for="InFile.ApprovalDate" class="text-danger"></span>
+
+                </div>
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">مصدر الصرف</label>
+                    <select asp-for="InFile.SourceId" class="form-select" asp-items="Model.SourcesList" required>
+                        <option value="">اختر المصدر</option>
+                    </select>
+                    <span asp-validation-for="InFile.SourceId" class="text-danger"></span>
+
+                </div>
+
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label class="form-label">اسم المستلم </label>
+                    <input type="text" class="form-control" asp-for="InFile.TokenName" required />
+                    <span asp-validation-for="InFile.TokenName" class="text-danger"></span>
+
+                </div>
+
             </div>
 
-            <!-- تاريخ المستند -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ المستند</label>
-                <input class="form-control" type="date" required />
+            <hr>
+            <h3 class="text-center my-3">إضافة مدخلات</h3>
+
+            <table class="table table-striped align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اسم المادة</th>
+                        <th>الوحدة</th>
+                        <th>العدد</th>
+                        <th>السعر</th>
+                        <th>الثمن الإجمالي</th>
+                        <th>تاريخ الإدخال</th>
+                        <th>سنة التجهيز</th>
+                        <th>التفاصيل</th>
+                        <td>
+                            <button class="icon-btn icon-add" type="button"><i class="bi bi-plus-lg"></i></button>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id="subjectsBody">
+                    <tr class="template-row">
+                        <td class="row-index"></td>
+                        <td>
+                            <select class="form-select material-select" name="Items[0].MaterialId" required>
+                                <option value="">اختر اسم المادة…</option>
+                                @foreach (var item in Model.MaterialsList)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span class="text-danger" data-valmsg-for="Items[0].MaterialId" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <select class="form-select units-select" name="Items[0].UnitsId" required>
+                                <option value="">اختر الوحدة…</option>
+                                @foreach (var item in Model.UnitsList)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span class="text-danger" data-valmsg-for="Items[0].UnitsId" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control  quantity" name="Items[0].Quantity" required />
+
+                            <span class="text-danger" data-valmsg-for="Items[0].Quantity" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control price" name="Items[0].Price" required />
+                            <span class="text-danger" data-valmsg-for="Items[0].Price" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control total" name="Items[0].Total" readonly />
+                            <span class="text-danger" data-valmsg-for="Items[0].Total" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" name="Items[0].EntryDate" required />
+                            <span class="text-danger" data-valmsg-for="Items[0].EntryDate" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <select class="form-select years-select" name="Items[0].YearDateId" required>
+                                <option value="">اختر السنة…</option>
+                                @foreach (var item in Model.YearsList)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span class="text-danger" data-valmsg-for="Items[0].YearDateId" data-valmsg-replace="true"></span>
+                        </td>
+                        <td><textarea class="form-control" name="Items[0].Details"></textarea></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="col-sm-12 mt-2">
+                <input type="submit" class="form-control color-btn btn btn-primary" value="حفظ" />
             </div>
-
-            <!-- اسم الجهة المجهزة -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">اسم الجهة المجهزة</label>
-                <input type="text" class="form-control" required placeholder="أدخل اسم الجهة" />
-            </div>
-
-            <!-- رقم الطلب -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم الطلب</label>
-                <input type="text" class="form-control" required placeholder="أدخل رقم الطلب" />
-            </div>
-
-            <!-- تاريخ الطلب -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ الطلب</label>
-                <input type="date" class="form-control" required />
-            </div>
-
-            <!-- رقم الموافقة على التجهيز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم الموافقة على التجهيز</label>
-                <input type="text" class="form-control" required placeholder="أدخل رقم الموافقة" />
-            </div>
-
-            <!-- تاريخ الموافقة على التجهيز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ الموافقة على التجهيز</label>
-                <input type="date" class="form-control" required />
-            </div>
-
-            <!-- مصدر الصرف -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">مصدر الصرف</label>
-                <select class="form-select" required>
-                    <option value="">اختر المصدر</option>
-                    <option value="صندوق">صندوق</option>
-                    <option value="عام">عام</option>
-                    <option value="هدايا">هدايا</option>
-                </select>
-            </div>
-        </div>
-
-        <hr>
-        <h3 class="text-center my-3">إضافة مدخلات</h3>
-
-        <!-- جدول المواد -->
-        <table class="table table-striped align-middle text-center">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>اسم المادة</th>
-                    <th>الوحدة</th>
-                    <th>العدد</th>
-                    <th>الثمن</th>
-                    <th>السعر الإجمالي</th>
-                    <th>تاريخ الإدخال</th>
-                    <th>سنة التجهيز</th>
-                    <th>التفاصيل</th>
-                    <td class="text-center">
-                        <button class="icon-btn icon-add" title="إضافة صف"><i class="bi bi-plus-lg"></i></button>
-                    </td>
-                </tr>
-            </thead>
-
-            <tbody id="subjectsBody">
-                <!-- الصفّ الأوّل (قالب) بلا زرّ حذف -->
-                <tr class="template-row">
-                    <td class="row-index"></td>
-                    <td>
-                        <select name="subjectName" class="form-select" required>
-                            <option value="" selected disabled>اختر اسم المادة…</option>
-                            <option value="arabic">اللغة العربية</option>
-                            <option value="english">اللغة الإنجليزية</option>
-                            <option value="math">الرياضيات</option>
-                            <option value="science">العلوم</option>
-                            <option value="history">التاريخ</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="unit" class="form-select" required>
-                            <option value="" selected disabled>اختر الوحدة…</option>
-                            <option value="kg">كغم</option>
-                            <option value="ltr">لتر</option>
-                            <option value="piece">قطعة</option>
-                        </select>
-                    </td>
-                    <td><input type="number" name="quantity" class="form-control" min="1" placeholder="0"></td>
-                    <td><input type="number" name="price" class="form-control" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="number" name="totalPrice" class="form-control" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="date" name="entryDate" class="form-control"></td>
-                    <td>
-                        <select name="supplyYear" class="form-select"><option selected disabled>اختر السنة…</option></select>
-                    </td>
-                    <td><textarea name="details" class="form-control" rows="1" placeholder="تفاصيل إضافية…"></textarea></td>
-                    <td></td> <!-- خلية فارغة للحذف -->
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="col-sm-12 mt-2">
-            <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>
     </div>
-</div>
+</form>
 
 <script>
-    /* ––– إعدادات عامة ––– */
-    const body   = document.getElementById('subjectsBody');
+    const body = document.getElementById('subjectsBody');
     const addBtn = document.querySelector('.icon-add');
 
-    /* توليد قائمة السنوات */
-    function fillYears(select){
-      const current=new Date().getFullYear();
-      for(let y=current;y>=current-20;y--){
-        const opt=document.createElement('option');
-        opt.value=y;opt.textContent=y;
-        select.appendChild(opt);
-      }
+    function refreshIndices() {
+        body.querySelectorAll('tr').forEach((tr, i) => {
+            tr.querySelector('.row-index').textContent = i + 1;
+            tr.querySelector('select.material-select').name = `Items[${i}].MaterialId`;
+            tr.querySelector('select.units-select').name = `Items[${i}].UnitsId`;
+            tr.querySelector('input[name$="Quantity"]').name = `Items[${i}].Quantity`;
+            tr.querySelector('input[name$="Price"]').name = `Items[${i}].Price`;
+            tr.querySelector('input[name$="Total"]').name = `Items[${i}].Total`;
+            tr.querySelector('input[name$="EntryDate"]').name = `Items[${i}].EntryDate`;
+            tr.querySelector('select.years-select').name = `Items[${i}].YearDateId`;
+            tr.querySelector('textarea').name = `Items[${i}].Details`;
+        });
     }
 
-    /* إعادة الترقيم */
-    function refreshIndices(){
-      body.querySelectorAll('tr').forEach((tr,i)=>{
-        tr.querySelector('.row-index').textContent=i+1;
-      });
-    }
+    function addRow() {
+        const template = body.querySelector('.template-row');
+        const clone = template.cloneNode(true);
 
-    /* إضافة صف جديد */
-    function addRow(){
-      const template=body.querySelector('.template-row');
-      const clone   =template.cloneNode(true);
+        clone.querySelectorAll('input, select, textarea').forEach(el => el.value = '');
+        clone.lastElementChild.innerHTML = `<button class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>`;
 
-      /* تفريغ القيم */
-      clone.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
-
-      /* سنوات التجهيز */
-      fillYears(clone.querySelector('select[name="supplyYear"]'));
-
-      /* زر الحذف */
-      clone.lastElementChild.innerHTML=
-        `<button class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>`;
-
-      body.appendChild(clone);
-      refreshIndices();
-    }
-
-    /* أحداث */
-    addBtn.addEventListener('click',addRow);
-
-    /* تفويض الحذف */
-    body.addEventListener('click',e=>{
-      const delBtn=e.target.closest('.icon-del');
-      if(delBtn){
-        delBtn.closest('tr').remove();
+        body.appendChild(clone);
         refreshIndices();
-      }
+    }
+
+    addBtn.addEventListener('click', addRow);
+
+    body.addEventListener('click', e => {
+        const delBtn = e.target.closest('.icon-del');
+        if (delBtn) {
+            delBtn.closest('tr').remove();
+            refreshIndices();
+        }
     });
 
-    /* تهيئة الصفّ الأوّل */
-    fillYears(document.querySelector('select[name="supplyYear"]'));
     refreshIndices();
 </script>
+@section Scripts {
+    <script>
+        $(document).on("input", ".quantity, .price", function () {
+            let row = $(this).closest("tr"); // الصف الحالي
+            let quantity = parseFloat(row.find(".quantity").val()) || 0;
+            let price = parseFloat(row.find(".price").val()) || 0;
+            let total = quantity * price;
+            row.find(".total").val(total.toFixed(2)); // خانتين عشريتين
+        });
+    </script>
+}
+<!-- تحميل مكتبات الفاليديشن (jQuery + jQuery.validate + jQuery.validate.unobtrusive) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>

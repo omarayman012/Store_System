@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model IEnumerable<Store_Sys.Controllers.MaterialViewModel>
+
+<style>
     /* From Uiverse.io by alexmaracinaru */
     .cta {
         position: relative;
@@ -92,15 +94,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                     
+
+                    @foreach (var material in Model)
+                    {
+                        <tr>
+                            <td>@material.Name</td>
+                            <td>@material.Code</td>
+                            <td>@material.InCount</td>
+                            <td>@material.OutCount</td>
+                            <td>@material.Remaining</td>
+                        </tr>
+                    }
 
                 </tbody>
             </table>

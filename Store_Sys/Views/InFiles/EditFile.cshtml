@@ -1,6 +1,7 @@
 ﻿<!-- Bootstrap RTL + Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+@model Store_Sys.Models.ViewModels.InFileViewModel
 
 <style>
     /* زر أيقونة دائري */
@@ -42,183 +43,209 @@
         pointer-events: none;
     }
 </style>
+<form asp-action="EditFile" asp-controller="InFiles" method="post">
+    <input type="hidden" asp-for="InFile.Id" />
 
-<div class="mt-5">
-    <div id="personal-info" class="shadow p-3">
-        <span class="bg-color d-inline-block px-2 mb-2">تعديل مستند  مدخل</span>
+    <div class="mt-5">
+        <div id="personal-info" class="shadow p-3">
+            <span class="bg-color d-inline-block px-2 mb-2">تعديل مستند مدخل</span>
 
-        <div class="row">
-            <!-- رقم المستند -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم المستند</label>
-                <input class="form-control" placeholder="أدخل رقم مستند" required />
+            <div class="row">
+                <!-- رقم المستند -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.DocumentNum" class="form-label"></label>
+                    <input asp-for="InFile.DocumentNum" class="form-control" placeholder="أدخل رقم مستند" required />
+                    <span asp-validation-for="InFile.DocumentNum" class="text-danger"></span>
+                </div>
+
+                <!-- تاريخ المستند -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.Documentdate" class="form-label"></label>
+                    <input asp-for="InFile.Documentdate" class="form-control" type="date" required />
+                    <span asp-validation-for="InFile.Documentdate" class="text-danger"></span>
+                </div>
+
+                <!-- اسم الجهة المجهزة -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.NameSupplier" class="form-label"></label>
+                    <input asp-for="InFile.NameSupplier" class="form-control" required placeholder="أدخل اسم الجهة" />
+                    <span asp-validation-for="InFile.NameSupplier" class="text-danger"></span>
+                </div>
+
+                <!-- رقم الطلب -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.OrderNum" class="form-label"></label>
+                    <input asp-for="InFile.OrderNum" class="form-control" required placeholder="أدخل رقم الطلب" />
+                    <span asp-validation-for="InFile.OrderNum" class="text-danger"></span>
+                </div>
+
+                <!-- تاريخ الطلب -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.OrderDate" class="form-label"></label>
+                    <input asp-for="InFile.OrderDate" class="form-control" type="date" required />
+                    <span asp-validation-for="InFile.OrderDate" class="text-danger"></span>
+                </div>
+
+                <!-- رقم الموافقة على التجهيز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.ApprovalNum" class="form-label"></label>
+                    <input asp-for="InFile.ApprovalNum" class="form-control" required placeholder="أدخل رقم الموافقة" />
+                    <span asp-validation-for="InFile.ApprovalNum" class="text-danger"></span>
+                </div>
+
+                <!-- تاريخ الموافقة على التجهيز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.ApprovalDate" class="form-label"></label>
+                    <input asp-for="InFile.ApprovalDate" class="form-control" type="date" required />
+                    <span asp-validation-for="InFile.ApprovalDate" class="text-danger"></span>
+                </div>
+
+                <!-- مصدر الصرف -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.SourceId" class="form-label"></label>
+                    <select asp-for="InFile.SourceId" asp-items="Model.SourcesList" class="form-select" required>
+                        <option value="">اختر المصدر</option>
+                    </select>
+                    <span asp-validation-for="InFile.SourceId" class="text-danger"></span>
+                </div>
+
+                <!-- اسم  المستلم -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="InFile.TokenName" class="form-label"></label>
+                    <input asp-for="InFile.TokenName" class="form-control" required placeholder="أدخل اسم المستلم" />
+                    <span asp-validation-for="InFile.TokenName" class="text-danger"></span>
+                </div>
             </div>
 
-            <!-- تاريخ المستند -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ المستند</label>
-                <input class="form-control" type="date" required />
+            
+            <h3 class="text-center my-3">تعديل مدخلات</h3>
+
+            <!-- جدول المواد -->
+            <table class="table table-striped align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اسم المادة</th>
+                        <th>الوحدة</th>
+                        <th>العدد</th>
+                        <th>السعر</th>
+                        <th>الثمن الإجمالي</th>
+                        <th>تاريخ الإدخال</th>
+                        <th>سنة التجهيز</th>
+                        <th>التفاصيل</th>
+                      @*   <td class="text-center">
+                            <button type="button" class="icon-btn icon-add" title="إضافة صف"><i class="bi bi-plus-lg"></i></button>
+                        </td> *@
+                    </tr>
+                </thead>
+
+                <tbody id="subjectsBody">
+                    @for (int i = 0; i < Model.Items.Count; i++)
+                    {
+                        <tr>
+                            <input type="hidden" asp-for="Items[i].Id" />
+                            <td class="row-index">@i + 1</td>
+                            <td>
+                                <select asp-for="Items[i].MaterialId" asp-items="Model.MaterialsList" class="form-select" required>
+                                    <option value="" selected disabled>اختر اسم المادة…</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select asp-for="Items[i].UnitsId" asp-items="Model.UnitsList" class="form-select" required>
+                                    <option value="" selected disabled>اختر الوحدة…</option>
+                                </select>
+                            </td>
+                            <td><input asp-for="Items[i].Quantity" class="form-control quantity" type="number" placeholder="0" /></td>
+                            <td><input asp-for="Items[i].Price" class="form-control price" type="number" placeholder="0.00" /></td>
+                            <td><input asp-for="Items[i].Total" class="form-control total" type="number" placeholder="0.00" readonly/></td>
+                            <td><input asp-for="Items[i].EntryDate" class="form-control" type="date" /></td>
+                            <td>
+                                <select asp-for="Items[i].YearDateId" asp-items="Model.YearsList" class="form-select" required>
+                                    <option value="" selected disabled>اختر السنة…</option>
+                                </select>
+                            </td>
+                            <td><textarea asp-for="Items[i].Details" class="form-control" rows="1" placeholder="تفاصيل إضافية…"></textarea></td>
+                          @*   <td>
+                                <button type="button" class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>
+                            </td> *@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="col-sm-12 mt-2">
+                <input type="submit" class="form-control color-btn" value="حفظ" />
             </div>
-
-            <!-- اسم الجهة المجهزة -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">اسم الجهة المجهزة</label>
-                <input type="text" class="form-control" required placeholder="أدخل اسم الجهة" />
-            </div>
-
-            <!-- رقم الطلب -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم الطلب</label>
-                <input type="text" class="form-control" required placeholder="أدخل رقم الطلب" />
-            </div>
-
-            <!-- تاريخ الطلب -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ الطلب</label>
-                <input type="date" class="form-control" required />
-            </div>
-
-            <!-- رقم الموافقة على التجهيز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم الموافقة على التجهيز</label>
-                <input type="text" class="form-control" required placeholder="أدخل رقم الموافقة" />
-            </div>
-
-            <!-- تاريخ الموافقة على التجهيز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ الموافقة على التجهيز</label>
-                <input type="date" class="form-control" required />
-            </div>
-
-            <!-- مصدر الصرف -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">مصدر الصرف</label>
-                <select class="form-select" required>
-                    <option value="">اختر المصدر</option>
-                    <option value="صندوق">صندوق</option>
-                    <option value="عام">عام</option>
-                    <option value="هدايا">هدايا</option>
-                </select>
-            </div>
-        </div>
-
-        <hr>
-        <h3 class="text-center my-3">تعديل مدخلات</h3>
-
-        <!-- جدول المواد -->
-        <table class="table table-striped align-middle text-center">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>اسم المادة</th>
-                    <th>الوحدة</th>
-                    <th>العدد</th>
-                    <th>الثمن</th>
-                    <th>السعر الإجمالي</th>
-                    <th>تاريخ الإدخال</th>
-                    <th>سنة التجهيز</th>
-                    <th>التفاصيل</th>
-                    <td class="text-center">
-                        <button class="icon-btn icon-add" title="إضافة صف"><i class="bi bi-plus-lg"></i></button>
-                    </td>
-                </tr>
-            </thead>
-
-            <tbody id="subjectsBody">
-                <!-- الصفّ الأوّل (قالب) بلا زرّ حذف -->
-                <tr class="template-row">
-                    <td class="row-index"></td>
-                    <td>
-                        <select name="subjectName" class="form-select" required>
-                            <option value="" selected disabled>اختر اسم المادة…</option>
-                            <option value="arabic">اللغة العربية</option>
-                            <option value="english">اللغة الإنجليزية</option>
-                            <option value="math">الرياضيات</option>
-                            <option value="science">العلوم</option>
-                            <option value="history">التاريخ</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="unit" class="form-select" required>
-                            <option value="" selected disabled>اختر الوحدة…</option>
-                            <option value="kg">كغم</option>
-                            <option value="ltr">لتر</option>
-                            <option value="piece">قطعة</option>
-                        </select>
-                    </td>
-                    <td><input type="number" name="quantity" class="form-control" min="1" placeholder="0"></td>
-                    <td><input type="number" name="price" class="form-control" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="number" name="totalPrice" class="form-control" min="0" step="0.01" placeholder="0.00"></td>
-                    <td><input type="date" name="entryDate" class="form-control"></td>
-                    <td>
-                        <select name="supplyYear" class="form-select"><option selected disabled>اختر السنة…</option></select>
-                    </td>
-                    <td><textarea name="details" class="form-control" rows="1" placeholder="تفاصيل إضافية…"></textarea></td>
-                    <td></td> <!-- خلية فارغة للحذف -->
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="col-sm-12 mt-2">
-            <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>
     </div>
-</div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).on("input", ".quantity, .price", function () {
+            let row = $(this).closest("tr"); // الصف الحالي
+            let quantity = parseFloat(row.find(".quantity").val()) || 0;
+            let price = parseFloat(row.find(".price").val()) || 0;
+            let total = quantity * price;
+            row.find(".total").val(total.toFixed(2)); // خانتين عشريتين
+        });
+    </script>
+}
 
 <script>
-    /* ––– إعدادات عامة ––– */
-    const body   = document.getElementById('subjectsBody');
-    const addBtn = document.querySelector('.icon-add');
+    // /* ––– إعدادات عامة ––– */
+    // const body   = document.getElementById('subjectsBody');
+    // const addBtn = document.querySelector('.icon-add');
 
-    /* توليد قائمة السنوات */
-    function fillYears(select){
-      const current=new Date().getFullYear();
-      for(let y=current;y>=current-20;y--){
-        const opt=document.createElement('option');
-        opt.value=y;opt.textContent=y;
-        select.appendChild(opt);
-      }
-    }
+    // /* توليد قائمة السنوات */
+    // function fillYears(select){
+    //   const current=new Date().getFullYear();
+    //   for(let y=current;y>=current-20;y--){
+    //     const opt=document.createElement('option');
+    //     opt.value=y;opt.textContent=y;
+    //     select.appendChild(opt);
+    //   }
+    // }
 
-    /* إعادة الترقيم */
-    function refreshIndices(){
-      body.querySelectorAll('tr').forEach((tr,i)=>{
-        tr.querySelector('.row-index').textContent=i+1;
-      });
-    }
+    // /* إعادة الترقيم */
+    // function refreshIndices(){
+    //   body.querySelectorAll('tr').forEach((tr,i)=>{
+    //     tr.querySelector('.row-index').textContent=i+1;
+    //   });
+    // }
 
-    /* إضافة صف جديد */
-    function addRow(){
-      const template=body.querySelector('.template-row');
-      const clone   =template.cloneNode(true);
+    // /* إضافة صف جديد */
+    // function addRow(){
+    //   const template=body.querySelector('.template-row');
+    //   const clone   =template.cloneNode(true);
 
-      /* تفريغ القيم */
-      clone.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
+    //   /* تفريغ القيم */
+    //   clone.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
 
-      /* سنوات التجهيز */
-      fillYears(clone.querySelector('select[name="supplyYear"]'));
+    //   /* سنوات التجهيز */
+    //   fillYears(clone.querySelector('select[name="supplyYear"]'));
 
-      /* زر الحذف */
-      clone.lastElementChild.innerHTML=
-        `<button class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>`;
+    //   /* زر الحذف */
+    //   clone.lastElementChild.innerHTML=
+    //     `<button class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>`;
 
-      body.appendChild(clone);
-      refreshIndices();
-    }
+    //   body.appendChild(clone);
+    //   refreshIndices();
+    // }
 
-    /* أحداث */
-    addBtn.addEventListener('click',addRow);
+    // /* أحداث */
+    // addBtn.addEventListener('click',addRow);
 
-    /* تفويض الحذف */
-    body.addEventListener('click',e=>{
-      const delBtn=e.target.closest('.icon-del');
-      if(delBtn){
-        delBtn.closest('tr').remove();
-        refreshIndices();
-      }
-    });
+    // /* تفويض الحذف */
+    // body.addEventListener('click',e=>{
+    //   const delBtn=e.target.closest('.icon-del');
+    //   if(delBtn){
+    //     delBtn.closest('tr').remove();
+    //     refreshIndices();
+    //   }
+    // });
 
-    /* تهيئة الصفّ الأوّل */
-    fillYears(document.querySelector('select[name="supplyYear"]'));
-    refreshIndices();
+    // /* تهيئة الصفّ الأوّل */
+    // fillYears(document.querySelector('select[name="supplyYear"]'));
+    // refreshIndices();
 </script>

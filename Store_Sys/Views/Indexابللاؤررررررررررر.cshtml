@@ -1,7 +1,8 @@
-﻿﻿<!-- Bootstrap RTL + Icons -->
+﻿<!-- Bootstrap RTL + Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 @model Store_Sys.Models.ViewModels.OutFileViewModel
+
 <style>
     /* زر أيقونة دائري */
     .icon-btn {
@@ -282,277 +283,257 @@
             color: #212529;
         }
 </style>
-<form asp-action="AddFile" asp-controller="OutFiles" method="post">
-   <div class="mt-5">
-    <div id="personal-info" class="shadow p-3">
-        <span class="bg-color d-inline-block px-2 mb-2">إضافة مستند جديد مخرج</span>
+<form asp-action="EditFile" asp-controller="OutFiles" method="post">
+    <input type="hidden" asp-for="OutFile.Id" />
 
-        <!-- معلومات المستند -->
-        <div class="row">
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم المستند</label>
-                <input class="form-control" placeholder="أدخل رقم مستند" asp-for="OutFile.DocumentNum" required />
-                <span asp-validation-for="OutFile.DocumentNum" class="text-danger"></span>
+    <div class="mt-5">
+        <div id="personal-info" class="shadow p-3">
+            <span class="bg-color d-inline-block px-2 mb-2">تعديل مستند مخرج</span>
+
+            <div class="row">
+                <!-- رقم المستند -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.DocumentNum" class="form-label"></label>
+                    <input asp-for="OutFile.DocumentNum" class="form-control" placeholder="أدخل رقم مستند" />
+                    <span asp-validation-for="OutFile.DocumentNum" class="text-danger"></span>
+                </div>
+
+                <!-- تاريخ المستند -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.Documentdate" class="form-label"></label>
+                    <input asp-for="OutFile.Documentdate" class="form-control" type="date" />
+                    <span asp-validation-for="OutFile.Documentdate" class="text-danger"></span>
+                </div>
+
+                <!-- نوع الجهة (شخص أو قسم) -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.OutputTypeId" class="form-label"></label>
+                    <select asp-for="OutFile.OutputTypeId" asp-items="ViewBag.OutputTypes" class="form-select">
+                        <option value="">اختر نوع الجهة</option>
+                    </select>
+                    <span asp-validation-for="OutFile.OutputTypeId" class="text-danger"></span>
+                </div>
+
+                <!-- اختيار موظف أو قسم -->
+                <div class="col-sm-12 col-md-2 mt-3" id="personSearch">
+                    <label class="form-label">اختر الموظف</label>
+                    <select asp-for="OutFile.PersonId" asp-items="ViewBag.Persons" class="form-select">
+                        <option value="">اختر موظف</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-12 col-md-2 mt-3" id="departmentSearch">
+                    <label class="form-label">اختر القسم</label>
+                    <select asp-for="OutFile.DepartmentId" asp-items="ViewBag.Departments" class="form-select">
+                        <option value="">اختر قسم</option>
+                    </select>
+                </div>
+
+                <!-- رقم الطلب -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.OrderNum" class="form-label"></label>
+                    <input asp-for="OutFile.OrderNum" class="form-control" placeholder="أدخل رقم الطلب" />
+                    <span asp-validation-for="OutFile.OrderNum" class="text-danger"></span>
+                </div>
+
+                <!-- تاريخ الطلب -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.OrderDate" class="form-label"></label>
+                    <input asp-for="OutFile.OrderDate" class="form-control" type="date" />
+                    <span asp-validation-for="OutFile.OrderDate" class="text-danger"></span>
+                </div>
+
+                <!-- مصدر الصرف -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.SourceId" class="form-label"></label>
+                    <select asp-for="OutFile.SourceId" asp-items="ViewBag.Sources" class="form-select">
+                        <option value="">اختر المصدر</option>
+                    </select>
+                    <span asp-validation-for="OutFile.SourceId" class="text-danger"></span>
+                </div>
+
+                <!-- رقم الموافقة على التجهيز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.ApprovalNum" class="form-label"></label>
+                    <input asp-for="OutFile.ApprovalNum" class="form-control" placeholder="أدخل رقم الموافقة" />
+                    <span asp-validation-for="OutFile.ApprovalNum" class="text-danger"></span>
+                </div>
+
+                <!-- تاريخ الموافقة على التجهيز -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.ApprovalDate" class="form-label"></label>
+                    <input asp-for="OutFile.ApprovalDate" class="form-control" type="date" />
+                    <span asp-validation-for="OutFile.ApprovalDate" class="text-danger"></span>
+                </div>
+
+                <!-- اسم المُجهز -->
+    @*             <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.PreparedPersonId" class="form-label"></label>
+                    <select asp-for="OutFile.PreparedPersonId" asp-items="ViewBag.PreparedPersons" class="form-select">
+                        <option value="">اختر المُجهز</option>
+                    </select>
+                    <span asp-validation-for="OutFile.PreparedPersonId" class="text-danger"></span>
+                </div> *@
+
+                <!-- اسم المُجهز له -->
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.PersonPrepared" class="form-label"></label>
+                    <input asp-for="OutFile.PersonPrepared" class="form-control" placeholder="أدخل اسم المُجهز له" />
+                    <span asp-validation-for="OutFile.PersonPrepared" class="text-danger"></span>
+                </div>
             </div>
 
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ المستند</label>
-                <input class="form-control" type="date" asp-for="OutFile.Documentdate" required />
-                <span asp-validation-for="OutFile.Documentdate" class="text-danger"></span>
-            </div>
-            <!-- اسم الجهة المُجهز لها -->
-            <!-- نوع الجهة: شخص أو قسم -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">اسم الجهة المُجهز لها</label>
-                <select id="entityType" class="form-select" onchange="toggleSearchableFields()" required asp-for="OutFile.OutputTypeId">
-                    <option value="">اختر نوع الجهة</option>
-                    @foreach (var item in Model.OutputTypesList)
-                    {
-                        <option value="@item.Value">@item.Text</option>
-                    }
-                </select>
-                <span asp-validation-for="OutFile.OutputTypeId" class="text-danger"></span>
-            </div>
+            <hr>
 
-            <!-- الموظفين -->
-            <div class="col-sm-12 col-md-2 mt-3 ">
-                <label class="form-label">أختر الموظف</label>
-                <select class="form-select" asp-for="OutFile.PersonId">
-                    <option value="">اختر الموظف</option>
-                    @foreach (var person in Model.PersonsList)
-                    {
-                        <option value="@person.Value">@person.Text</option>
-                    }
-                </select>
-                <span asp-validation-for="OutFile.PersonId" class="text-danger"></span>
-            </div>
-            <!-- الأقسام -->
-            <div class="col-sm-12 col-md-2 mt-3 ">
-                <label class="form-label">أختر القسم</label>
-                <select class="form-select" asp-for="OutFile.DepartmentId">
-                    <option value="">اختر القسم</option>
-                    @foreach (var department in Model.DepartmentsList)
-                    {
-                        <option value="@department.Value">@department.Text</option>
-                    }
-                </select>
-                <span asp-validation-for="OutFile.DepartmentId" class="text-danger"></span>
-            </div>
-
-
-            <!-- رقم الطلب -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم الطلب</label>
-                <input type="text" class="form-control" placeholder="أدخل رقم الطلب" asp-for="OutFile.OrderNum" required />
-                <span asp-validation-for="OutFile.OrderNum" class="text-danger"></span>
-            </div>
-
-            <!-- تاريخ الطلب -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ الطلب</label>
-                <input type="date" class="form-control" asp-for="OutFile.OrderDate" required />
-                <span asp-validation-for="OutFile.OrderDate" class="text-danger"></span>
-            </div>
-
-            <!-- مصدر الصرف -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">مصدر الصرف</label>
-                <select class="form-select" asp-for="OutFile.SourceId" required>
-                    <option value="">اختر المصدر</option>
-                    @foreach (var source in Model.SourcesList)
-                    {
-                        <option value="@source.Value">@source.Text</option>
-                    }
-                </select>
-                <span asp-validation-for="OutFile.SourceId" class="text-danger"></span>
-            </div>
-
-            <!-- رقم الموافقة على التجهيز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">رقم الموافقة على التجهيز</label>
-                <input type="text" class="form-control" placeholder="أدخل رقم الموافقة" asp-for="OutFile.ApprovalNum" required />
-                <span asp-validation-for="OutFile.ApprovalNum" class="text-danger"></span>
-            </div>
-
-            <!-- تاريخ الموافقة على التجهيز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">تاريخ الموافقة على التجهيز</label>
-                <input type="date" class="form-control" asp-for="OutFile.ApprovalDate" required />
-                <span asp-validation-for="OutFile.ApprovalDate" class="text-danger"></span>
-            </div>
-
-
-        
-
-            <!-- اسم المُجهز -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">اسم المُجهز</label>
-                    <select class="form-select" asp-for="OutFile.PreparedPerson" required>
-                    <option value="">اختر المُجهز</option>
-                    @foreach (var person in Model.PersonsList)
-                    {
-                        <option value="@person.Value">@person.Text</option>
-                    }
-                </select>
-                    <span asp-validation-for="OutFile.PreparedPerson" class="text-danger"></span>
-            </div>
-
-            <!-- اسم المُجهز له -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label class="form-label">اسم المُجهز له</label>
-                <input type="text" class="form-control" placeholder="أدخل اسم المُجهز له" asp-for="OutFile.PersonPrepared" required />
-                <span asp-validation-for="OutFile.PersonPrepared" class="text-danger"></span>
-            </div>
-
-
-
-        </div>
-
-        <hr>
-        <h3 class="text-center my-3">إضافة مخرجات</h3>
-
-        <!-- جدول المواد -->
-        <table class="table table-striped align-middle text-center">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>اسم المادة</th>
-                    
-                    <th>الوحدة</th>
-                    <th>العدد</th>
-                    <th>السعر</th>
-                    <th>السعر الإجمالي</th>
-                    <th>تاريخ الإدخال</th>
-                    <th>سنة التجهيز</th>
-                    <th>التفاصيل</th>
-                    <td>
-                        <button class="icon-btn icon-add" type="button" title="إضافة صف"><i class="bi bi-plus-lg"></i></button>
-                    </td>
-                </tr>
-            </thead>
-
-            <tbody id="subjectsBody">
-                <!-- الصفّ الأوّل (قالب) بلا زرّ حذف -->
-                    <tr class="template-row">
-                        <td class="row-index"></td>
-                        <td>
-                            <select class="form-select material-select" name="Items[0].MaterialId" required>
-                                <option value="">اختر اسم المادة…</option>
-                                @foreach (var item in Model.MaterialsList)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span class="text-danger" data-valmsg-for="Items[0].MaterialId" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <select class="form-select units-select" name="Items[0].UnitsId" required>
-                                <option value="">اختر الوحدة…</option>
-                                @foreach (var item in Model.UnitsList)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span class="text-danger" data-valmsg-for="Items[0].UnitsId" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control  quantity" name="Items[0].Quantity" required />
-
-                            <span class="text-danger" data-valmsg-for="Items[0].Quantity" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control price" name="Items[0].Price" required />
-                            <span class="text-danger" data-valmsg-for="Items[0].Price" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control total" name="Items[0].Total" readonly />
-                            <span class="text-danger" data-valmsg-for="Items[0].Total" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <input type="date" class="form-control" name="Items[0].EntryDate" required />
-                            <span class="text-danger" data-valmsg-for="Items[0].EntryDate" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <select class="form-select years-select" name="Items[0].YearDateId" required>
-                                <option value="">اختر السنة…</option>
-                                @foreach (var item in Model.YearsList)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span class="text-danger" data-valmsg-for="Items[0].YearDateId" data-valmsg-replace="true"></span>
-                        </td>
-                        <td><textarea class="form-control" name="Items[0].Details"></textarea></td>
-                        <td></td>
+            <!-- جدول المواد -->
+            <h3 class="text-center my-3">تفاصيل المواد</h3>
+            <table class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اسم المادة</th>
+                        <th>الوحدة</th>
+                        <th>العدد</th>
+                        <th>السعر</th>
+                        <th>الإجمالي</th>
+                        <th>تاريخ الإدخال</th>
+                        <th>سنة التجهيز</th>
+                        <th>تفاصيل إضافية</th>
+                        <th>حذف</th>
                     </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="materialsTable">
+                    @if (Model.Items != null && Model.Items.Any())
+                    {
+                        int index = 0;
+                        foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@(++index)</td>
+                                <td>
+                                    <select name="Items[@index].MaterialId" class="form-select" asp-items="ViewBag.Materials">
+                                        <option value="">اختر مادة</option>
+                                    </select>
+                                    <input type="hidden" name="Items[@index].Id" value="@item.Id" />
+                                </td>
+                                <td>
+                                    <select name="Items[@index].UnitsId" class="form-select" asp-items="ViewBag.Units">
+                                        <option value="">اختر وحدة</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" name="Items[@index].Quantity" value="@item.Quantity" class="form-control" /></td>
+                                <td><input type="number" name="Items[@index].Price" value="@item.Price" class="form-control" step="0.01" /></td>
+                                <td><input type="number" name="Items[@index].Total" value="@item.Total" class="form-control" step="0.01" /></td>
+                                <td><input type="date" name="Items[@index].EntryDate" value="@item.EntryDate.ToString("yyyy-MM-dd")" class="form-control" /></td>
+                                <td>
+                                    <select name="Items[@index].YearDateId" class="form-select" asp-items="ViewBag.Years">
+                                        <option value="">اختر سنة</option>
+                                    </select>
+                                </td>
+                                <td><textarea name="Items[@index].Details" class="form-control">@item.Details</textarea></td>
+                                <td><button type="button" class="btn btn-danger">حذف</button></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
 
-        <div class="col-sm-12 mt-2">
-            <input type="submit" class="form-control color-btn" value="حفظ" />
+
+            <div class="col-sm-12 mt-2">
+                <input type="submit" class="form-control color-btn" value="حفظ" />
+            </div>
         </div>
     </div>
-</div>
 </form>
+<!-- JavaScript -->
+<script>
+    function toggleSearchableFields() {
+        const selected = document.getElementById('entityType').value;
+        const personSearch = document.getElementById('personSearch');
+        const departmentSearch = document.getElementById('departmentSearch');
 
+        personSearch.classList.add('d-none');
+        departmentSearch.classList.add('d-none');
 
-@section Scripts {
-    <script>
-        $(document).on("input", ".quantity, .price", function () {
-            let row = $(this).closest("tr"); // الصف الحالي
-            let quantity = parseFloat(row.find(".quantity").val()) || 0;
-            let price = parseFloat(row.find(".price").val()) || 0;
-            let total = quantity * price;
-            row.find(".total").val(total.toFixed(2)); // خانتين عشريتين
-        });
-    </script>
-}
-<!-- تحميل مكتبات الفاليديشن (jQuery + jQuery.validate + jQuery.validate.unobtrusive) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jquery.validate.unobtrusive.min.js"></script>
+        if (selected === 'person') {
+            personSearch.classList.remove('d-none');
+        } else if (selected === 'department') {
+            departmentSearch.classList.remove('d-none');
+        }
+    }
 
+    function filterFunction(input, listId) {
+        const filter = input.value.toUpperCase();
+        const ul = document.getElementById(listId);
+        const li = ul.getElementsByTagName('li');
 
+        for (let i = 0; i < li.length; i++) {
+            const txtValue = li[i].textContent || li[i].innerText;
+            li[i].style.display = txtValue.toUpperCase().includes(filter) ? '' : 'none';
+        }
+    }
+
+    function selectEmployee(li) {
+        const input = li.closest('.searchable').querySelector('input');
+        input.value = li.textContent;
+    }
+</script>
 
 <script>
-    const body = document.getElementById('subjectsBody');
+    /* ––– إعدادات عامة ––– */
+    const body   = document.getElementById('subjectsBody');
     const addBtn = document.querySelector('.icon-add');
 
-    function refreshIndices() {
-        body.querySelectorAll('tr').forEach((tr, i) => {
-            tr.querySelector('.row-index').textContent = i + 1;
-            tr.querySelector('select.material-select').name = `Items[${i}].MaterialId`;
-            tr.querySelector('select.units-select').name = `Items[${i}].UnitsId`;
-            tr.querySelector('input[name$="Quantity"]').name = `Items[${i}].Quantity`;
-            tr.querySelector('input[name$="Price"]').name = `Items[${i}].Price`;
-            tr.querySelector('input[name$="Total"]').name = `Items[${i}].Total`;
-            tr.querySelector('input[name$="EntryDate"]').name = `Items[${i}].EntryDate`;
-            tr.querySelector('select.years-select').name = `Items[${i}].YearDateId`;
-            tr.querySelector('textarea').name = `Items[${i}].Details`;
-        });
+    /* توليد قائمة السنوات */
+    function fillYears(select){
+      const current=new Date().getFullYear();
+      for(let y=current;y>=current-20;y--){
+        const opt=document.createElement('option');
+        opt.value=y;opt.textContent=y;
+        select.appendChild(opt);
+      }
     }
 
-    function addRow() {
-        const template = body.querySelector('.template-row');
-        const clone = template.cloneNode(true);
+    /* إعادة الترقيم */
+    function refreshIndices(){
+      body.querySelectorAll('tr').forEach((tr,i)=>{
+        tr.querySelector('.row-index').textContent=i+1;
+      });
+    }
 
-        clone.querySelectorAll('input, select, textarea').forEach(el => el.value = '');
-        clone.lastElementChild.innerHTML = `<button class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>`;
+    /* إضافة صف جديد */
+    function addRow(){
+      const template=body.querySelector('.template-row');
+      const clone   =template.cloneNode(true);
 
-        body.appendChild(clone);
+      /* تفريغ القيم */
+      clone.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
+
+      /* سنوات التجهيز */
+      fillYears(clone.querySelector('select[name="supplyYear"]'));
+
+      /* زر الحذف */
+      clone.lastElementChild.innerHTML=
+        `<button class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>`;
+
+      body.appendChild(clone);
+      refreshIndices();
+    }
+
+    /* أحداث */
+    addBtn.addEventListener('click',addRow);
+
+    /* تفويض الحذف */
+    body.addEventListener('click',e=>{
+      const delBtn=e.target.closest('.icon-del');
+      if(delBtn){
+        delBtn.closest('tr').remove();
         refreshIndices();
-    }
-
-    addBtn.addEventListener('click', addRow);
-
-    body.addEventListener('click', e => {
-        const delBtn = e.target.closest('.icon-del');
-        if (delBtn) {
-            delBtn.closest('tr').remove();
-            refreshIndices();
-        }
+      }
     });
 
+    /* تهيئة الصفّ الأوّل */
+    fillYears(document.querySelector('select[name="supplyYear"]'));
     refreshIndices();
 </script>
 <script>
@@ -749,3 +730,4 @@
         });
     });
 </script>
+

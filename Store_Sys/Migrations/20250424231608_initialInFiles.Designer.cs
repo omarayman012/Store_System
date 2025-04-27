@@ -12,8 +12,8 @@ using Store_Sys.Models;
 namespace Store_Sys.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250419233527_InitialOutMaterialsfinall")]
-    partial class InitialOutMaterialsfinall
+    [Migration("20250424231608_initialInFiles")]
+    partial class initialInFiles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace Store_Sys.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("Store_Sys.Models.InMaterials", b =>
+            modelBuilder.Entity("Store_Sys.Models.InFiles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,37 +49,84 @@ namespace Store_Sys.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DocumentNumber")
+                    b.Property<DateTime>("ApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ApprovalNum")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DocumentNum")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Documentdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameSupplier")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderNum")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SourceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceId");
+
+                    b.ToTable("InFiles");
+                });
+
+            modelBuilder.Entity("Store_Sys.Models.InMaterialsFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Details")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EntryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MaterialCode")
+                    b.Property<int>("InFileId")
                         .HasColumnType("int");
+
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReservedFor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
 
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UnitsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("YearDateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialCode");
+                    b.HasIndex("InFileId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("UnitsId");
 
                     b.HasIndex("YearDateId");
 
-                    b.ToTable("InMaterials");
+                    b.ToTable("InMaterialsFiles");
                 });
 
             modelBuilder.Entity("Store_Sys.Models.Materials", b =>
@@ -96,65 +143,13 @@ namespace Store_Sys.Migrations
                     b.Property<string>("Details")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("InMaterialsId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OutMaterialsId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("InMaterialsId");
-
-                    b.HasIndex("OutMaterialsId");
 
                     b.ToTable("Materials");
-                });
-
-            modelBuilder.Entity("Store_Sys.Models.OutMaterials", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MaterialCode")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OutputType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("MaterialCode");
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("OutMaterials");
                 });
 
             modelBuilder.Entity("Store_Sys.Models.Person", b =>
@@ -173,6 +168,40 @@ namespace Store_Sys.Migrations
                     b.ToTable("Persons");
                 });
 
+            modelBuilder.Entity("Store_Sys.Models.Source", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Source");
+                });
+
+            modelBuilder.Entity("Store_Sys.Models.Units", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Units");
+                });
+
             modelBuilder.Entity("Store_Sys.Models.YearsDate", b =>
                 {
                     b.Property<int>("id")
@@ -189,11 +218,34 @@ namespace Store_Sys.Migrations
                     b.ToTable("YearsDates");
                 });
 
-            modelBuilder.Entity("Store_Sys.Models.InMaterials", b =>
+            modelBuilder.Entity("Store_Sys.Models.InFiles", b =>
                 {
+                    b.HasOne("Store_Sys.Models.Source", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Source");
+                });
+
+            modelBuilder.Entity("Store_Sys.Models.InMaterialsFile", b =>
+                {
+                    b.HasOne("Store_Sys.Models.InFiles", "InFile")
+                        .WithMany("Items")
+                        .HasForeignKey("InFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Store_Sys.Models.Materials", "Material")
                         .WithMany()
-                        .HasForeignKey("MaterialCode")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Store_Sys.Models.Units", "Units")
+                        .WithMany()
+                        .HasForeignKey("UnitsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -203,57 +255,18 @@ namespace Store_Sys.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("InFile");
+
                     b.Navigation("Material");
+
+                    b.Navigation("Units");
 
                     b.Navigation("YearDate");
                 });
 
-            modelBuilder.Entity("Store_Sys.Models.Materials", b =>
+            modelBuilder.Entity("Store_Sys.Models.InFiles", b =>
                 {
-                    b.HasOne("Store_Sys.Models.InMaterials", null)
-                        .WithMany("Materials")
-                        .HasForeignKey("InMaterialsId");
-
-                    b.HasOne("Store_Sys.Models.OutMaterials", null)
-                        .WithMany("Materials")
-                        .HasForeignKey("OutMaterialsId");
-                });
-
-            modelBuilder.Entity("Store_Sys.Models.OutMaterials", b =>
-                {
-                    b.HasOne("Store_Sys.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Store_Sys.Models.Materials", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Store_Sys.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Material");
-
-                    b.Navigation("Person");
-                });
-
-            modelBuilder.Entity("Store_Sys.Models.InMaterials", b =>
-                {
-                    b.Navigation("Materials");
-                });
-
-            modelBuilder.Entity("Store_Sys.Models.OutMaterials", b =>
-                {
-                    b.Navigation("Materials");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
