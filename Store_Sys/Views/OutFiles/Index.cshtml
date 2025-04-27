@@ -1,6 +1,24 @@
 ﻿@model List<Store_Sys.Models.OutFiles>
 
 <style>
+    .PrimaryBtn {
+        background-color: rgb(15, 103, 177) !important;
+        color: white; /* لون النص */
+        border: none; /* إخفاء الإطار */
+        padding: 10px 20px; /* ضبط الحشوة */
+        text-align: center; /* محاذاة النص في الوسط */
+        text-decoration: none; /* إزالة التسطير عن النص */
+        display: inline-block; /* عرض الزر كعنصر سطري */
+        font-size: 16px; /* حجم النص */
+        margin: 4px 2px; /* الهوامش */
+        cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+        border-radius: 4px; /* تقويس الزوايا */
+    }
+
+    .PrimaryBtn:hover {
+        color: white !important;
+    }
+
     /* From Uiverse.io by alexmaracinaru */
     .cta {
     position: relative;
@@ -89,6 +107,26 @@
             var counter = 1;
         }
         <div class="row">
+            <form>
+                <div class="row my-3">
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <label for="searchName" class="mb-2">بحث برقم المستند</label>
+                        <input type="text" id="searchName" name="searchName" class="form-control" placeholder=" بحث برقم المستند">
+                    </div>
+
+
+                    <!-- تاريخ إلى -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <label for="endDate" class="mb-2">تاريخ المستند</label>
+                        <input type="date" id="endDate" name="endDate" class="form-control">
+                    </div>
+
+                    <!-- زر البحث -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <button type="submit" style="color: white;" class="btn PrimaryBtn mt-4 w-100">بحث</button>
+                    </div>
+                </div>
+            </form>
             <table class="table table-hover">
                 <thead>
                     <tr>
