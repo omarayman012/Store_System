@@ -13,31 +13,38 @@ namespace Store_Sys.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchName, string searchCode)
         {
             var materials = _context.Materials
                 .Select(m => new MaterialViewModel
                 {
-                    Id = m.Id,
                     Name = m.Name,
                     Code = m.Code,
-                    InCount = _context.InMaterialsFiles
-                        .Where(im => im.MaterialId == m.Id)
-                        .Sum(im => (int?)im.Quantity) ?? 0,
-                    OutCount = _context.OutMaterialsFile
-                        .Where(om => om.MaterialId == m.Id)
-                        .Sum(om => (int?)om.Quantity) ?? 0
-                })
-                .ToList();
+                    InCount = m.InMaterialsFile.Sum(x => (int?)x.Quantity) ?? 0, // لاحظ استخدمنا (int?) لتفادي المشاكل لو ما في بيانات
+                    OutCount = m.OutMaterialsFile.Sum(x => (int?)x.Quantity) ?? 0,
+                  
+                });
 
-            return View(materials);
+            // هنا الفلترة
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                materials = materials.Where(m => m.Name.Contains(searchName));
+            }
+
+            if (!string.IsNullOrEmpty(searchCode))
+            {
+                materials = materials.Where(m => m.Code.ToString().Contains(searchCode));
+               
+            }
+
+            return View(materials.ToList());
         }
+
     }
 
     // ViewModel خاص للعرض
     public class MaterialViewModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int Code { get; set; }
         public int InCount { get; set; }

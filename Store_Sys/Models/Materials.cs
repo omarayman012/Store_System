@@ -14,5 +14,7 @@ namespace Store_Sys.Models
         public int Code { get; set; }
 
         public string? Details { get; set; }
+        public ICollection<InMaterialsFile> InMaterialsFile { get; set; }
+        public ICollection<OutMaterialsFile> OutMaterialsFile { get; set; }
     }
 }

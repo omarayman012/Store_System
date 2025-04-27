@@ -62,9 +62,7 @@
 
 </style>
 
-<form method="post">
-    @Html.AntiForgeryToken()
-</form>
+
 <style>
     .PrimaryBtn {
         background-color: rgb(15, 103, 177) !important;
@@ -100,12 +98,18 @@
     </div>
 
     <div id="personal-info" class="shadow">
-        <form>
+        <form method="get" asp-action="Index" class="mb-4">
             <div class="row my-3">
-                <!-- بحث بالاسم -->
+                <!-- بحث باسم المادة (دروب داون سيرشابل) -->
                 <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                     <label for="searchName" class="mb-2">بحث بأسم المادة</label>
-                    <input type="text" id="searchName" name="searchName" class="form-control" placeholder="بحث بالأسم">
+                    <select id="searchName" name="searchName" class="form-control search-dropdown">
+                        <option value="">-- اختر المادة --</option>
+                        @foreach (var material in Model)
+                        {
+                            <option value="@material.Name">@material.Name</option>
+                        }
+                    </select>
                 </div>
 
                 <!-- بحث بالكود -->
@@ -114,24 +118,13 @@
                     <input type="text" id="searchCode" name="searchCode" class="form-control" placeholder="بحث بالكود">
                 </div>
 
-                <!-- تاريخ من -->
-                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
-                    <label for="startDate" class="mb-2">تاريخ من</label>
-                    <input type="date" id="startDate" name="startDate" class="form-control">
-                </div>
-
-                <!-- تاريخ إلى -->
-                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
-                    <label for="endDate" class="mb-2">تاريخ إلى</label>
-                    <input type="date" id="endDate" name="endDate" class="form-control">
-                </div>
-
                 <!-- زر البحث -->
                 <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
-                    <button type="submit" style="color: white;" class="btn PrimaryBtn mt-4 w-100">بحث</button>
+                    <button type="submit" class="btn PrimaryBtn mt-4 w-100">بحث</button>
                 </div>
             </div>
         </form>
+
 
         <div class="row">
             <table class="table table-hover">
@@ -165,4 +158,27 @@
 
 </div>
 
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+	$(document).ready(function () {
+		// تفعيل السيرش داخل الدروب داون
+		$('.search-dropdown').select2({
+			placeholder: "اختر اسم المادة",
+			allowClear: true,
+			width: '100%',
+			dir: "rtl" // لأنه الصفحة بالعربي
+		});
+	});
+        $(document).ready(function () {
+        // تفعيل السيرش داخل الدروب داون
+        $('.search-dropdown').select2({
+            placeholder: "اختر اسم المادة",   // النص الافتراضي داخل البحث
+            allowClear: true,                 // السماح بإزالة البحث
+            width: '100%',                    // ضبط العرض بنسبة 100%
+            dir: "rtl"                        // توجيه النص من اليمين لليسار
+        });
+    });
