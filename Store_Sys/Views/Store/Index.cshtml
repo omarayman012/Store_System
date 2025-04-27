@@ -80,12 +80,7 @@
 
 </style>
 
-@if (TempData["Success"] != null)
-{
-    <div id="success-message" class="mt-3" style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
-        @TempData["Success"]
-    </div>
-}
+
 <div class="mt-5">
     <div id="personal-info" class="shadow">
         <span class="bg-color"> بيانات المواد </span>
@@ -98,35 +93,24 @@
     <div id="personal-info" class="shadow">
         <form method="get" asp-action="Index" class="mb-4">
             <div class="row my-3">
-                <!-- بحث باسم المادة (دروب داون سيرشابل) -->
-                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
-                    <label for="searchName" class="mb-2">بحث بأسم المادة</label>
-                    <select id="searchName" name="searchName" class="form-control search-dropdown">
-                        <option value="">-- اختر المادة --</option>
-                        @foreach (var material in Model)
-                        {
-                            <option value="@material.Name">@material.Name</option>
-                        }
-                    </select>
-                </div>
+                <!-- بحث باسم المادة -->
                 <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                     <div class="searchable">
                         <label for="searchName" class="mb-2">بحث بأسم المادة</label>
-                        <input type="text" placeholder=" اختر المادة" class="form-control" onkeyup="filterFunction(this, 'specificSpecList')" />
-                        <ul id="searchName">
+                        <input type="text" id="searchNameInput" name="searchName" placeholder=" اختر المادة" class="form-control" onkeyup="filterByName()" value="@ViewData["SearchName"]" />
+                        <ul id="materialList">
                             @foreach (var material in Model)
                             {
-                                <li data-value="@material.Name" onclick="selectEmployee(this)">@material.Name</li>
+                                <li data-value="@material.Name">@material.Name</li>
                             }
                         </ul>
-                       
                     </div>
-                    <span class="text-danger" id="errorMessage"></span>
                 </div>
+
                 <!-- بحث بالكود -->
                 <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                     <label for="searchCode" class="mb-2">بحث بالكود</label>
-                    <input type="text" id="searchCode" name="searchCode" class="form-control" placeholder="بحث بالكود">
+                    <input type="text" id="searchCode" name="searchCode" class="form-control" placeholder="بحث بالكود" value="@ViewData["SearchCode"]" />
                 </div>
 
                 <!-- زر البحث -->
@@ -136,6 +120,7 @@
             </div>
         </form>
 
+   
 
         <div class="row">
             <table class="table table-hover">
@@ -163,33 +148,45 @@
 
                 </tbody>
             </table>
+            <!-- عرض رسالة إذا لم تكن هناك نتائج -->
+            @if (ViewData["NoResultsMessage"] != null)
+            {
+                <div class="alert alert-warning mt-3" role="alert">
+                    @ViewData["NoResultsMessage"]
+                </div>
+            }
         </div>
+
 
     </div>
 
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-	$(document).ready(function () {
-		// تفعيل السيرش داخل الدروب داون
-		$('.search-dropdown').select2({
-			placeholder: "اختر اسم المادة",
-			allowClear: true,
-			width: '100%',
-			dir: "rtl" // لأنه الصفحة بالعربي
-		});
-	});
-        $(document).ready(function () {
-        // تفعيل السيرش داخل الدروب داون
-        $('.search-dropdown').select2({
-            placeholder: "اختر اسم المادة",   // النص الافتراضي داخل البحث
-            allowClear: true,                 // السماح بإزالة البحث
-            width: '100%',                    // ضبط العرض بنسبة 100%
-            dir: "rtl"                        // توجيه النص من اليمين لليسار
-        });
-    });
+       // دالة لتصفية العناصر بناءً على الإدخال في الـ input
+    function filterByName() {
+        var input = document.getElementById('searchNameInput');
+        var filter = input.value.toLowerCase();
+        var list = document.getElementById('materialList');
+        var items = list.getElementsByTagName('li');
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var itemText = item.textContent || item.innerText;
+
+            if (itemText.toLowerCase().indexOf(filter) > -1) {
+                item.style.display = "";
+            } else {
+                item.style.display = "none";
+            }
+        }
+    }
+
 </script>
+
+

@@ -15,14 +15,54 @@ namespace Store_Sys.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string searchDocumentNum, string searchOrderNum, DateTime? startDate, DateTime? endDate)
         {
-            // استرجاع جميع المستندات من قاعدة البيانات
-            var files = _context.InFiles.ToList();
+            var filesQuery = _context.InFiles.AsQueryable();
 
-            // عرض المستندات في الـ View
+            // إذا تم إدخال رقم المستند
+            if (!string.IsNullOrEmpty(searchDocumentNum))
+            {
+                filesQuery = filesQuery.Where(f => f.DocumentNum.ToString().Contains(searchDocumentNum));
+            }
+
+            // إذا تم إدخال رقم الطلب
+            if (!string.IsNullOrEmpty(searchOrderNum))
+            {
+                filesQuery = filesQuery.Where(f => f.OrderNum.ToString().Contains(searchOrderNum));
+            }
+
+            // إذا تم إدخال تاريخ البداية
+            if (startDate.HasValue)
+            {
+                filesQuery = filesQuery.Where(f => f.Documentdate >= startDate);
+            }
+
+            // إذا تم إدخال تاريخ النهاية
+            if (endDate.HasValue)
+            {
+                filesQuery = filesQuery.Where(f => f.Documentdate <= endDate);
+            }
+
+            var files = filesQuery.ToList();
+            // تحقق إذا كانت النتائج فارغة
+            if (files.Count == 0)
+            {
+                ViewData["NoResultsMessage"] = "لا توجد  نتائج  تطابق المعايير المدخلة.";  // رسالة للإظهار في الـ View
+            }
+           
+
+            // تمرير المتغيرات إلى الـ ViewData
+            ViewData["searchDocumentNum"] = searchDocumentNum;
+            ViewData["searchOrderNum"] = searchOrderNum;
+            ViewData["startDate"] = startDate?.ToString("yyyy-MM-dd");
+            ViewData["endDate"] = endDate?.ToString("yyyy-MM-dd");
+
             return View(files);
         }
+
+
+
+
         public IActionResult AddFile()
         {
 

@@ -15,14 +15,69 @@ namespace Store_Sys.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string searchDocumentNum, string searchOrderNum, string searchApprovalNum, DateTime? startDate, DateTime? endDate, string searchPerson, string searchDepartment)
         {
-            // استرجاع جميع المستندات من قاعدة البيانات
-            var files = _context.OutFiles.ToList();
+            // استرجاع جميع المستندات من قاعدة البيانات مع تحميل الأقسام والأشخاص
+            var filesQuery = _context.OutFiles
+                                     .Include(f => f.Department)  // تحميل البيانات المرتبطة بالقسم
+                                     .Include(f => f.Person)      // تحميل البيانات المرتبطة بالشخص
+                                     .AsQueryable();
 
-            // عرض المستندات في الـ View
+            // إذا تم إدخال رقم المستند
+            if (!string.IsNullOrEmpty(searchDocumentNum))
+            {
+                filesQuery = filesQuery.Where(f => f.DocumentNum.ToString().Contains(searchDocumentNum));
+            }
+
+            // إذا تم إدخال رقم الطلب
+            if (!string.IsNullOrEmpty(searchOrderNum))
+            {
+                filesQuery = filesQuery.Where(f => f.OrderNum.ToString().Contains(searchOrderNum));
+            }
+
+            // إذا تم إدخال رقم الموافقة
+            if (!string.IsNullOrEmpty(searchApprovalNum))
+            {
+                filesQuery = filesQuery.Where(f => f.ApprovalNum.ToString().Contains(searchApprovalNum));
+            }
+
+            // إذا تم إدخال تاريخ البداية
+            if (startDate.HasValue)
+            {
+                filesQuery = filesQuery.Where(f => f.Documentdate >= startDate);
+            }
+
+            // إذا تم إدخال تاريخ النهاية
+            if (endDate.HasValue)
+            {
+                filesQuery = filesQuery.Where(f => f.Documentdate <= endDate);
+            }
+
+            // إذا تم إدخال اسم الشخص
+            if (!string.IsNullOrEmpty(searchPerson))
+            {
+                filesQuery = filesQuery.Where(f => f.PersonPrepared.Contains(searchPerson));
+            }
+
+            // إذا تم إدخال القسم
+            if (!string.IsNullOrEmpty(searchDepartment))
+            {
+                filesQuery = filesQuery.Where(f => f.Department.Name.Contains(searchDepartment));
+            }
+
+            // استرجاع النتائج بعد التصفية
+            var files = filesQuery.ToList();
+
+            // إذا لم توجد نتائج، يمكنك إرسال رسالة للمستخدم
+            if (!files.Any())
+            {
+                ViewData["NoResultsMessage"] = "لا توجد نتائج تطابق معايير البحث.";
+            }
+
             return View(files);
         }
+
+
         public IActionResult AddFile()
         {
             var viewModel = new OutFileViewModel

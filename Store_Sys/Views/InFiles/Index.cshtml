@@ -111,40 +111,46 @@
         <div class="row">
             <form>
                 <div class="row my-3">
+
+                    <!-- بحث برقم المستند -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
-                        <label for="searchName" class="mb-2">بحث برقم المستند</label>
-                        <input type="text" id="searchName" name="searchName" class="form-control" placeholder=" بحث برقم المستند">
+                        <label for="searchDocumentNum" class="mb-2">بحث برقم المستند</label>
+                        <input type="text" id="searchDocumentNum" name="searchDocumentNum" class="form-control" placeholder="بحث برقم المستند" value="@ViewData["searchDocumentNum"]">
                     </div>
 
+                    <!-- بحث برقم الطلب -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
-                        <label for="searchName" class="mb-2">بحث برقم الطلب</label>
-                        <input type="text" id="searchName" name="searchName" class="form-control" placeholder=" بحث برقم الطلب">
+                        <label for="searchOrderNum" class="mb-2">بحث برقم الطلب</label>
+                        <input type="text" id="searchOrderNum" name="searchOrderNum" class="form-control" placeholder="بحث برقم الطلب" value="@ViewData["searchOrderNum"]">
                     </div>
 
                     <!-- تاريخ من -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <label for="startDate" class="mb-2">تاريخ من</label>
-                        <input type="date" id="startDate" name="startDate" class="form-control">
+                        <input type="date" id="startDate" name="startDate" class="form-control" value="@ViewData["startDate"]">
                     </div>
 
                     <!-- تاريخ إلى -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <label for="endDate" class="mb-2">تاريخ إلى</label>
-                        <input type="date" id="endDate" name="endDate" class="form-control">
+                        <input type="date" id="endDate" name="endDate" class="form-control" value="@ViewData["endDate"]">
                     </div>
 
                     <!-- زر البحث -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <button type="submit" style="color: white;" class="btn PrimaryBtn mt-4 w-100">بحث</button>
                     </div>
+                
                 </div>
             </form>
+      
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">رقم المستند</th>
                         <th scope="col">تاريخ المستند</th>
+                        <th scope="col">رقم الطلب</th>
                         <th scope="col">تعديل</th>
                         <th scope="col">حذف</th>
                     </tr>
@@ -156,6 +162,7 @@
                             <td>@counter</td>
                             <td>@file.DocumentNum</td>
                             <td>@(file.Documentdate?.ToString("MM/dd/yyyy"))</td>
+                            <td>@file.OrderNum</td>
                             <td>
                                 <a href="@Url.Action("EditFile", "InFiles", new { id = file.Id })" class="btn text-dark">
                                     <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px;">
@@ -175,7 +182,13 @@
                     }
                 </tbody>
             </table>
-        
+            <!-- عرض رسالة إذا لم تكن هناك نتائج -->
+            @if (ViewData["NoResultsMessage"] != null)
+            {
+                <div class="alert alert-warning mt-3" role="alert">
+                    @ViewData["NoResultsMessage"]
+                </div>
+            }
         </div>
     </div>
 </div>
