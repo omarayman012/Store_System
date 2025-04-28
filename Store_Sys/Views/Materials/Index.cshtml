@@ -101,6 +101,7 @@
                         <th scope="col">#</th>
                         <th scope="col">أسم المادة</th>
                         <th scope="col">الكود</th>
+                        <th scope="col">وحدة القياس</th>
                         <th scope="col">التفاصيل</th>
 
                         <th scope="col">تعديل</th>
@@ -117,6 +118,7 @@
                                 <td scope="row">@counter</td>
                                 <td>@item.Name</td>
                                 <td>@item.Code</td>
+                                <td>سم</td>
                                 <td>@item.Details</td>
                                 <td>
                                     <a href="@Url.Action("EditMaterial", "Materials", new { id = item.Id })" class="btn text-dark">

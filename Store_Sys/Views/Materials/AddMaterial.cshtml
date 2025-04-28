@@ -9,7 +9,11 @@
             <input asp-for="Name" class="form-control" placeholder="اسم المادة" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-
+        <div class="col-sm-12 col-md-3 mt-3">
+            <select class="form-select units-select" name="Items[0].UnitsId" required>
+                <option value="">اختر الوحدة…</option>
+            </select>
+        </div>
         <!-- كود المادة -->
         <div class="col-sm-12 col-md-3 mt-3">
             <label asp-for="Code"></label>

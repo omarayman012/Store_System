@@ -1,0 +1,36 @@
+﻿<div id="personal-info" class="shadow my-5">
+    <span class="bg-color">  أضافة مستند جديد </span>
+    
+
+    <form >
+        <div class="row">
+                <div class="col-sm-12 col-md-3 mt-3">
+                    <label for="documentNumber" class="form-label">رقم المستند</label>
+                    <input type="text" class="form-control" id="documentNumber" placeholder="أدخل رقم المستند">
+                </div>
+
+            <div class="col-sm-12 col-md-3 mt-3">
+                <label for="documentDate" class="form-label">تاريخ المستند</label>
+                    <input type="date" class="form-control" id="documentDate">
+                </div>
+
+            <div class="col-sm-12 col-md-3 mt-3">
+                <label for="documentType" class="form-label">نوع العملية</label>
+                    <select class="form-select" id="documentType">
+                        <option value="">اختر نوع العملية</option>
+                        <option value="input">إدخال</option>
+                        <option value="output">إخراج</option>
+                    </select>
+                </div>
+
+            <div class="col-sm-12 col-md-3 mt-3">
+                <label for="documentFile" class="form-label">رفع ملف</label>
+                    <input type="file" class="form-control" id="documentFile">
+                </div>
+            </div>
+
+        <div class="col-sm-12 mt-4">
+            <input type="submit" class="form-control color-btn" value="حفظ" />
+        </div>
+    </form>
+</div>

@@ -1,0 +1,186 @@
+﻿<style>
+    .custom-btn {
+        font-size: 0.85rem; /* نص أصغر نسبياً */
+        padding: 8px 16px;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .btn-fasl {
+        background: linear-gradient(45deg, #1e90ff, #00bfff); /* تدرج أزرق */
+    }
+
+    .btn-shuhada {
+        background: linear-gradient(45deg, #28a745, #a2d729); /* تدرج أخضر */
+    }
+
+    .custom-btn:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+
+    .show-file-hover {
+        position: relative; /* يسمح بوضع التلميح داخل العنصر */
+    }
+
+        /* السهم + النص (يُنشَأ باستخدام pseudo-element) */
+        .show-file-hover::after {
+            content: "⬈  إظهار الملف"; /* السهم + النص */
+            font-size: 0.8rem;
+            background: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            /* موضعه فوق العنصر */
+            position: absolute;
+            bottom: 100%; /* فوق العنصر مباشرة */
+            right: 50%;
+            transform: translateX(50%) translateY(-6px);
+            opacity: 0; /* مخفي افتراضيًا */
+            pointer-events: none;
+            /* انتقال لطيف عند الظهور */
+            transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+        }
+
+        /* عند المرور بالماوس: أظهر التلميح */
+        .show-file-hover:hover::after {
+            opacity: 1;
+            transform: translateX(50%) translateY(-10px); /* يرتفع قليلًا */
+        }
+    /* From Uiverse.io by alexmaracinaru */
+    .cta {
+        position: relative;
+        margin: auto;
+        padding: 12px 18px;
+        transition: all 0.2s ease;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #b1dae7;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
+        }
+
+</style>
+
+<div class="mt-5">
+    <div id="personal-info" class="shadow">
+        <span class="bg-color"> بيانات الأرشيف  </span>
+        <p>
+            هذه الصفحة تعرض بيانات كل الحركات من مدخلات ومخرجات
+        </p>
+
+    </div>
+
+    <div id="personal-info" class="shadow">
+        <div class="row my-3">
+            <div class="col-sm-12 col-md-6 col-lg-2">
+                <a href="@Url.Action("Add","Archive")">
+                    <button class="cta">
+                        <span>إضافة مستند</span>
+                        <svg width="15px" height="15px" viewBox="0 0 20 20">
+                            <line x1="10" y1="3" x2="10" y2="17" stroke="black" stroke-width="2"></line>
+                            <line x1="3" y1="10" x2="17" y2="10" stroke="black" stroke-width="2"></line>
+                        </svg>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">رقم المستند</th>
+                        <th scope="col">تاريخ المستند</th>
+                        <th scope="col">نوع العملية</th>
+                        <th scope="col">ملف المستند</th>
+
+                        <th scope="col">تعديل</th>
+                        <th scope="col">  حذف   </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="" target="_blank" class="show-file-hover" title="">
+                                <button type="button" class="custom-btn btn-fasl w-50">
+                                    ملف الحركة
+                                </button>
+                            </a>
+                        </td>
+                        
+                        <td>
+                            <a href="@Url.Action("Edit", "Archive")" class="btn text-dark">
+                                <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px;">
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn text-dark delete-material"
+                                    data-id=""
+                                    style="border: none; background: transparent;">
+                                <img src="/images/trash.png" alt="حذف" style="width: 30px; height: 30px;">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
