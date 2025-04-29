@@ -79,6 +79,8 @@ namespace Store_Sys.Controllers
 
                 YearsList = _context.YearsDates
                      .Select(y => new SelectListItem { Value = y.id.ToString(), Text = y.Year.ToString() })
+
+                
             };
             ViewBag.Message = "برجاء ملء جميع الحقول قبل الحفظ";
             return View(viewModel);
@@ -117,8 +119,6 @@ namespace Store_Sys.Controllers
                         Quantity = item.Quantity,
                         Price = item.Price,
                         Total = item.Total,
-                        EntryDate = item.EntryDate,
-                        YearDateId = item.YearDateId,
                         Details = item.Details
                     };
 
@@ -206,8 +206,8 @@ namespace Store_Sys.Controllers
                     materialFile.Quantity = item.Quantity;
                     materialFile.Price = item.Price;
                     materialFile.Total = item.Total;
-                    materialFile.EntryDate = item.EntryDate;
-                    materialFile.YearDateId = item.YearDateId;
+                    //materialFile.EntryDate = item.EntryDate;
+                    //materialFile.YearDateId = item.YearDateId;
                     materialFile.Details = item.Details;
                 }
                 else
@@ -220,8 +220,8 @@ namespace Store_Sys.Controllers
                         Quantity = item.Quantity,
                         Price = item.Price,
                         Total = item.Total,
-                        EntryDate = item.EntryDate,
-                        YearDateId = item.YearDateId,
+                        //EntryDate = item.EntryDate,
+                        //YearDateId = item.YearDateId,
                         Details = item.Details
                     };
                     _context.InMaterialsFiles.Add(newMaterialFile);

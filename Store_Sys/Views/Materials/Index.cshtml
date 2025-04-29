@@ -118,7 +118,7 @@
                                 <td scope="row">@counter</td>
                                 <td>@item.Name</td>
                                 <td>@item.Code</td>
-                                <td>سم</td>
+                                <td>@item.Units?.Name</td> <!-- عرض اسم وحدة القياس -->
                                 <td>@item.Details</td>
                                 <td>
                                     <a href="@Url.Action("EditMaterial", "Materials", new { id = item.Id })" class="btn text-dark">

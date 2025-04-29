@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store_Sys.Models;
 
@@ -11,9 +12,11 @@ using Store_Sys.Models;
 namespace Store_Sys.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250429152821_TypeOfOperation")]
+    partial class TypeOfOperation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,34 +24,6 @@ namespace Store_Sys.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Store_Sys.Models.Archive", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DocumentNum")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Documentdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeOfOperationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TypeOfOperationId");
-
-                    b.ToTable("Archive");
-                });
 
             modelBuilder.Entity("Store_Sys.Models.Department", b =>
                 {
@@ -377,17 +352,6 @@ namespace Store_Sys.Migrations
                     b.ToTable("YearsDates");
                 });
 
-            modelBuilder.Entity("Store_Sys.Models.Archive", b =>
-                {
-                    b.HasOne("Store_Sys.Models.TypeOfOperation", "OperationType")
-                        .WithMany("Archives")
-                        .HasForeignKey("TypeOfOperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OperationType");
-                });
-
             modelBuilder.Entity("Store_Sys.Models.InFiles", b =>
                 {
                     b.HasOne("Store_Sys.Models.Source", "Source")
@@ -510,11 +474,6 @@ namespace Store_Sys.Migrations
             modelBuilder.Entity("Store_Sys.Models.OutFiles", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Store_Sys.Models.TypeOfOperation", b =>
-                {
-                    b.Navigation("Archives");
                 });
 #pragma warning restore 612, 618
         }

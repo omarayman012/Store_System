@@ -1,29 +1,36 @@
-﻿<div id="personal-info" class="shadow my-5">
+﻿@model Store_Sys.Models.Archive
+﻿
+
+<div id="personal-info" class="shadow my-5">
     <span class="bg-color">  تعديل مستند </span>
-    <form>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        
         <div class="row">
             <div class="col-sm-12 col-md-3 mt-3">
-                <label for="documentNumber" class="form-label">رقم المستند</label>
-                <input type="text" class="form-control" id="documentNumber" placeholder="أدخل رقم المستند">
+                <label class="form-label">رقم المستند</label>
+                <input asp-for="DocumentNum" class="form-control" placeholder="أدخل رقم المستند" />
+                <span asp-validation-for="DocumentNum" class="text-danger"></span>
             </div>
 
             <div class="col-sm-12 col-md-3 mt-3">
-                <label for="documentDate" class="form-label">تاريخ المستند</label>
-                <input type="date" class="form-control" id="documentDate">
+                <label class="form-label">تاريخ المستند</label>
+                <input asp-for="Documentdate" class="form-control" type="date" />
+                <span asp-validation-for="Documentdate" class="text-danger"></span>
             </div>
 
             <div class="col-sm-12 col-md-3 mt-3">
-                <label for="documentType" class="form-label">نوع العملية</label>
-                <select class="form-select" id="documentType">
+                <label class="form-label">نوع العملية</label>
+                <select asp-for="TypeOfOperationId" class="form-select" asp-items="@(new SelectList(ViewBag.Operations, "Id", "Name"))">
                     <option value="">اختر نوع العملية</option>
-                    <option value="input">إدخال</option>
-                    <option value="output">إخراج</option>
                 </select>
+                <span asp-validation-for="TypeOfOperationId" class="text-danger"></span>
             </div>
 
             <div class="col-sm-12 col-md-3 mt-3">
-                <label for="documentFile" class="form-label">رفع ملف</label>
-                <input type="file" class="form-control" id="documentFile">
+                <label class="form-label">رفع ملف</label>
+                <input type="file" name="FilePath" class="form-control" />
             </div>
         </div>
 

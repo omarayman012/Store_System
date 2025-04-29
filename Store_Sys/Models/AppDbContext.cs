@@ -7,6 +7,17 @@ namespace Store_Sys.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Materials>()
+                .HasOne(m => m.Units)
+                .WithMany()
+                .HasForeignKey(m => m.UnitsId)
+                .OnDelete(DeleteBehavior.Restrict); // هنا قلنا له لا تعمل كاسكيد
+        }
+
 
         public DbSet<Materials> Materials { get; set; } 
         public DbSet<YearsDate> YearsDates { get; set; }
@@ -19,6 +30,8 @@ namespace Store_Sys.Models
         public DbSet<OutputTypes> OutputTypes { get; set; }
         public DbSet<OutFiles> OutFiles { get; set; }
         public DbSet<OutMaterialsFile> OutMaterialsFile { get; set; }
+        public DbSet<TypeOfOperation> TypeOfOperation { get; set; }
+        public DbSet<Archive> Archive { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

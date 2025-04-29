@@ -17,6 +17,10 @@ namespace Store_Sys.Controllers
         }
         public IActionResult Index(string searchDocumentNum, string searchOrderNum, string searchApprovalNum, DateTime? startDate, DateTime? endDate, string searchPerson, string searchDepartment)
         {
+            // استرجاع الأشخاص والأقسام لتعبئة القوائم المنسدلة
+            ViewBag.Persons = _context.Persons.ToList(); // الأشخاص
+            ViewBag.Departments = _context.Departments.ToList(); // الأقسام
+
             // استرجاع جميع المستندات من قاعدة البيانات مع تحميل الأقسام والأشخاص
             var filesQuery = _context.OutFiles
                                      .Include(f => f.Department)  // تحميل البيانات المرتبطة بالقسم
@@ -52,21 +56,24 @@ namespace Store_Sys.Controllers
             {
                 filesQuery = filesQuery.Where(f => f.Documentdate <= endDate);
             }
-
             // إذا تم إدخال اسم الشخص
             if (!string.IsNullOrEmpty(searchPerson))
             {
-                filesQuery = filesQuery.Where(f => f.PersonPrepared.Contains(searchPerson));
+                filesQuery = filesQuery.Where(f => f.PersonId.ToString() == searchPerson); // تعديل هنا
             }
 
             // إذا تم إدخال القسم
             if (!string.IsNullOrEmpty(searchDepartment))
             {
-                filesQuery = filesQuery.Where(f => f.Department.Name.Contains(searchDepartment));
+                filesQuery = filesQuery.Where(f => f.DepartmentId.ToString() == searchDepartment); // تعديل هنا
             }
 
             // استرجاع النتائج بعد التصفية
             var files = filesQuery.ToList();
+
+
+      
+
 
             // إذا لم توجد نتائج، يمكنك إرسال رسالة للمستخدم
             if (!files.Any())
@@ -128,6 +135,38 @@ namespace Store_Sys.Controllers
 
                 // يمكنك إضافة المزيد من الحقول إذا كان هناك حاجة
             };
+
+
+
+            // تحقق قبل إضافة الملف
+            foreach (var item in viewModel.Items)
+            {
+                // حساب الكمية المتبقية للمادة المطلوبة
+                var material = _context.Materials
+                    .Where(m => m.Id == item.MaterialId)
+                    .Select(m => new
+                    {
+                        InCount = m.InMaterialsFile.Sum(x => (int?)x.Quantity) ?? 0,
+                        OutCount = m.OutMaterialsFile.Sum(x => (int?)x.Quantity) ?? 0
+                    })
+                    .FirstOrDefault();
+
+                if (material == null)
+                {
+                    ModelState.AddModelError("", "المادة المحددة غير موجودة.");
+                    LoadLists(viewModel); // 👈 تحميل القوائم قبل الرجوع
+                    return View(viewModel);
+                }
+
+                var remaining = material.InCount - material.OutCount;
+
+                if (item.Quantity > remaining)
+                {
+                    ModelState.AddModelError("", $"لا يمكن إخراج كمية ({item.Quantity}) من المادة، المتوفر حالياً هو ({remaining}) فقط.");
+                    LoadLists(viewModel); // 👈 تحميل القوائم قبل الرجوع
+                    return View(viewModel);
+                }
+            }
             _context.OutFiles.Add(NewOutFile);
             _context.SaveChanges(); // حفظ الملف في قاعدة البيانات
 
@@ -143,8 +182,8 @@ namespace Store_Sys.Controllers
                     Quantity = item.Quantity,
                     Price = item.Price,
                     Total = item.Total,
-                    EntryDate = item.EntryDate,
-                    YearDateId = item.YearDateId,
+                    //EntryDate = item.EntryDate,
+                    //YearDateId = item.YearDateId,
                     Details = item.Details
                 };
 
@@ -208,6 +247,36 @@ namespace Store_Sys.Controllers
             {
                 return NotFound();
             }
+            // تحقق من الكميات المتبقية أثناء تعديل العناصر
+            foreach (var item in viewModel.Items)
+            {
+                // حساب الكمية المتبقية للمادة المطلوبة
+                var material = _context.Materials
+                    .Where(m => m.Id == item.MaterialId)
+                    .Select(m => new
+                    {
+                        InCount = m.InMaterialsFile.Sum(x => (int?)x.Quantity) ?? 0,
+                        OutCount = m.OutMaterialsFile.Sum(x => (int?)x.Quantity) ?? 0
+                    })
+                    .FirstOrDefault();
+
+                if (material == null)
+                {
+                    ModelState.AddModelError("", "المادة المحددة غير موجودة.");
+                    LoadLists(viewModel); // تحميل القوائم عند حدوث خطأ
+                    return View(viewModel);
+                }
+
+                var remaining = material.InCount ;
+
+                if (item.Quantity > remaining)
+                {
+                    ModelState.AddModelError("", $"لا يمكن تعديل كمية ({item.Quantity}) من المادة، المتوفر حالياً هو ({remaining}) فقط.");
+                    LoadLists(viewModel); // تحميل القوائم عند حدوث خطأ
+                    return View(viewModel);
+                }
+            }
+
 
             // تحديث الحقول
             outFile.DocumentNum = viewModel.OutFile.DocumentNum;
@@ -234,8 +303,8 @@ namespace Store_Sys.Controllers
                     existingItem.Quantity = item.Quantity;
                     existingItem.Price = item.Price;
                     existingItem.Total = item.Total;
-                    existingItem.EntryDate = item.EntryDate;
-                    existingItem.YearDateId = item.YearDateId;
+                    //existingItem.EntryDate = item.EntryDate;
+                    //existingItem.YearDateId = item.YearDateId;
                     existingItem.Details = item.Details;
                 }
                 else
@@ -248,8 +317,8 @@ namespace Store_Sys.Controllers
                         Quantity = item.Quantity,
                         Price = item.Price,
                         Total = item.Total,
-                        EntryDate = item.EntryDate,
-                        YearDateId = item.YearDateId,
+                        //EntryDate = item.EntryDate,
+                        //YearDateId = item.YearDateId,
                         Details = item.Details
                     };
                     _context.OutMaterialsFile.Add(newItem);
@@ -277,5 +346,30 @@ namespace Store_Sys.Controllers
             return Json(new { success = false });
         }
 
+
+        // 👇 ميثود مساعدة لتحميل القوائم مرة أخرى
+        private void LoadLists(OutFileViewModel viewModel)
+        {
+            viewModel.SourcesList = _context.Source
+                .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name });
+
+            viewModel.MaterialsList = _context.Materials
+                .Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name });
+
+            viewModel.UnitsList = _context.Units
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = u.Name });
+
+            viewModel.OutputTypesList = _context.OutputTypes
+                .Select(o => new SelectListItem { Value = o.Id.ToString(), Text = o.Name });
+
+            viewModel.PersonsList = _context.Persons
+                .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name });
+
+            viewModel.DepartmentsList = _context.Departments
+                .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name });
+
+            viewModel.YearsList = _context.YearsDates
+                .Select(y => new SelectListItem { Value = y.id.ToString(), Text = y.Year.ToString() });
+        }
     }
 }

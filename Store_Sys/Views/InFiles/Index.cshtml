@@ -80,7 +80,35 @@
 
 </style>
 
+<style>
+    .btn-refresh {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px; /* تصغير الحجم */
+        height: 40px; /* تصغير الحجم */
+        background-color: #B0B0B0; /* لون رمادي فاتح */
+        color: white;
+        border-radius: 50%; /* الشكل الدائري */
+        font-size: 18px; /* حجم الأيقونة */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* تأثير ظل خفيف */
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
 
+        .btn-refresh:hover {
+            transform: scale(1.1); /* تكبير الزر عند التحويم */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التحويم */
+            background-color: #004D73; /* لون كحلي عند التحويم */
+        }
+
+        .btn-refresh i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-refresh:hover i {
+            transform: rotate(360deg); /* إضافة حركة دوران للأيقونة عند التحويم */
+        }
+</style>
 
 <div class="mt-5">
     <div id="personal-info" class="shadow">
@@ -140,7 +168,14 @@
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <button type="submit" style="color: white;" class="btn PrimaryBtn mt-4 w-100">بحث</button>
                     </div>
-                
+
+
+                    <!-- زر إعادة تحميل البيانات بدون فلترة -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2 d-flex justify-content-center align-items-center">
+                        <a href="@Url.Action("Index", "InFiles")" class="btn btn-refresh" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 18px; border-radius: 5px;">
+                            <i class="fas fa-sync-alt"></i>
+                        </a>
+                    </div>
                 </div>
             </form>
       
@@ -192,6 +227,7 @@
         </div>
     </div>
 </div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

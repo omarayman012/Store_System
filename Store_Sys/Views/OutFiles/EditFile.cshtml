@@ -285,7 +285,7 @@
 </style>
 <form asp-action="EditFile" asp-controller="OutFiles" method="post">
     <input type="hidden" asp-for="OutFile.Id" />
-<div class="mt-5">
+    <div class="mt-5">
     <div id="personal-info" class="shadow p-3">
         <span class="bg-color d-inline-block px-2 mb-2">تعديل مستند  مخرج</span>
 
@@ -398,8 +398,8 @@
                     <th>العدد</th>
                     <th>الثمن</th>
                     <th>السعر الإجمالي</th>
-                    <th>تاريخ الإدخال</th>
-                    <th>سنة التجهيز</th>
+                @*     <th>تاريخ الإدخال</th>
+                    <th>سنة التجهيز</th> *@
                     <th>التفاصيل</th>
                     @* <td class="text-center">
                         <button class="icon-btn icon-add" title="إضافة صف"><i class="bi bi-plus-lg"></i></button>
@@ -426,12 +426,12 @@
                         <td><input asp-for="Items[i].Quantity" class="form-control quantity" type="number" placeholder="0" /></td>
                         <td><input asp-for="Items[i].Price" class="form-control price" type="number" placeholder="0.00" /></td>
                         <td><input asp-for="Items[i].Total" class="form-control total" type="number" placeholder="0.00" readonly /></td>
-                        <td><input asp-for="Items[i].EntryDate" class="form-control" type="date" /></td>
+                  @*       <td><input asp-for="Items[i].EntryDate" class="form-control" type="date" /></td>
                         <td>
                             <select asp-for="Items[i].YearDateId" asp-items="Model.YearsList" class="form-select" required>
                                 <option value="" selected disabled>اختر السنة…</option>
                             </select>
-                        </td>
+                        </td> *@
                         <td><textarea asp-for="Items[i].Details" class="form-control" rows="1" placeholder="تفاصيل إضافية…"></textarea></td>
                         @*   <td>
                                 <button type="button" class="icon-btn icon-del" title="حذف الصف"><i class="bi bi-x-lg"></i></button>
@@ -441,6 +441,7 @@
             </tbody>
         </table>
 
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-sm-12 mt-2">
             <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>

@@ -1,33 +1,41 @@
-﻿<div id="personal-info" class="shadow my-5">
+﻿@model Store_Sys.Models.Archive
+
+
+<div id="personal-info" class="shadow my-5">
     <span class="bg-color">  أضافة مستند جديد </span>
     
 
-    <form >
+    <form asp-action="Add" method="post" enctype="multipart/form-data">
         <div class="row">
                 <div class="col-sm-12 col-md-3 mt-3">
                     <label for="documentNumber" class="form-label">رقم المستند</label>
-                    <input type="text" class="form-control" id="documentNumber" placeholder="أدخل رقم المستند">
-                </div>
+                <input asp-for="DocumentNum" class="form-control" />
+                <span asp-validation-for="DocumentNum" class="text-danger"></span>
+            </div>
 
             <div class="col-sm-12 col-md-3 mt-3">
                 <label for="documentDate" class="form-label">تاريخ المستند</label>
-                    <input type="date" class="form-control" id="documentDate">
-                </div>
+                <input asp-for="Documentdate" type="date" class="form-control" />
+                <span asp-validation-for="Documentdate" class="text-danger"></span>
+            </div>
 
             <div class="col-sm-12 col-md-3 mt-3">
                 <label for="documentType" class="form-label">نوع العملية</label>
-                    <select class="form-select" id="documentType">
-                        <option value="">اختر نوع العملية</option>
-                        <option value="input">إدخال</option>
-                        <option value="output">إخراج</option>
-                    </select>
+                <select asp-for="TypeOfOperationId" class="form-select">
+                    <option value="">اختر نوع العملية</option>
+                    @foreach (var item in ViewBag.Operations as List<Store_Sys.Models.TypeOfOperation>)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="TypeOfOperationId" class="text-danger"></span>
                 </div>
 
             <div class="col-sm-12 col-md-3 mt-3">
                 <label for="documentFile" class="form-label">رفع ملف</label>
-                    <input type="file" class="form-control" id="documentFile">
-                </div>
+                <input type="file" name="FilePath" class="form-control" id="FilePath" />
             </div>
+		</div> 
 
         <div class="col-sm-12 mt-4">
             <input type="submit" class="form-control color-btn" value="حفظ" />

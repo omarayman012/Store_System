@@ -4,49 +4,63 @@
 <form asp-action="CreateMaterial" method="post" class="mt-3">
     <div class="row">
         <!-- اسم المادة -->
-        <div class="col-sm-12 col-md-3 mt-3">
-            <label asp-for="Name"></label>
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label>أسم المادة</label>
             <input asp-for="Name" class="form-control" placeholder="اسم المادة" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-        <div class="col-sm-12 col-md-3 mt-3">
-            <select class="form-select units-select" name="Items[0].UnitsId" required>
+
+        <!-- الوحدة -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label>الوحدة</label>
+            <select asp-for="UnitsId" class="form-select" asp-items="Model.UnitsList">
                 <option value="">اختر الوحدة…</option>
             </select>
+            <span asp-validation-for="UnitsId" class="text-danger"></span>
         </div>
-        <!-- كود المادة -->
-        <div class="col-sm-12 col-md-3 mt-3">
-            <label asp-for="Code"></label>
-            <input asp-for="Code" class="form-control" placeholder="كود المادة" />
+
+        <!-- الكود -->
+        <div class="col-sm-12 col-md-4 mt-3">
+            <label>الكود</label>
+            <input asp-for="Code" id="Code" class="form-control" placeholder="كود المادة" />
             <span asp-validation-for="Code" class="text-danger"></span>
         </div>
 
         <!-- التفاصيل -->
-        <div class="col-sm-12 col-md-6 mt-3">
-            <label asp-for="Details"></label>
+        <div class="col-sm-12 mt-3">
+            <label>التفاصيل</label>
             <textarea asp-for="Details" class="form-control" rows="3" placeholder="تفاصيل المادة"></textarea>
             <span asp-validation-for="Details" class="text-danger"></span>
         </div>
     </div>
 
-    <div class="col-sm-12 mt-2">
+    <div class="col-sm-12 mt-4">
         <input type="submit" class="form-control color-btn" value="حفظ" />
     </div>
 </form>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $("form").on("submit", function(event) {
-            var code = $("#Code").val(); // الحصول على قيمة الكود
+           $(document).ready(function () {
+        $("form").on("submit", function (event) {
+            event.preventDefault(); // أوقف الإرسال مؤقتًا
+
+            var form = this;
+            var code = $("#Code").val();
+
             $.ajax({
-                url: '@Url.Action("CheckCode", "Materials")', // استبدال بـ URL مناسب
+                url: '@Url.Action("CheckCode", "Materials")',
                 type: 'GET',
                 data: { code: code },
-                success: function(response) {
+                success: function (response) {
                     if (response.exists) {
-                        alert("كود المادة موجود بالفعل.");
-                        event.preventDefault(); // منع إرسال النموذج
+                        // عرض رسالة الخطأ تحت حقل الكود مباشرة
+                        $('#Code').after('<span class="text-danger">كود المادة موجود بالفعل.</span>');
+                    } else {
+                        form.submit(); // لو الكود غير موجود، كمل إرسال النموذج
                     }
+                },
+                error: function () {
+                    alert("حدث خطأ أثناء التحقق من الكود.");
                 }
             });
         });

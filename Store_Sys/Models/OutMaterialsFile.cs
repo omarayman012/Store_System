@@ -67,21 +67,21 @@ namespace Store_Sys.Models
 
 
 
-        [Required(ErrorMessage = "يجب إدخال تاريخ الإدخال")]
-        [Display(Name = "تاريخ الإدخال")]
-        [DataType(DataType.Date)]
-        public DateTime EntryDate { get; set; }
+        //[Required(ErrorMessage = "يجب إدخال تاريخ الإدخال")]
+        //[Display(Name = "تاريخ الإدخال")]
+        //[DataType(DataType.Date)]
+        //public DateTime EntryDate { get; set; }
 
 
 
 
 
-        [Required(ErrorMessage = "يجب اختيار سنة التجهيز")]
-        [Display(Name = "سنة التجهيز")]
-        public int YearDateId { get; set; }
+        //[Required(ErrorMessage = "يجب اختيار سنة التجهيز")]
+        //[Display(Name = "سنة التجهيز")]
+        //public int YearDateId { get; set; }
 
-        [ForeignKey("YearDateId")]
-        public YearsDate YearDate { get; set; }
+        //[ForeignKey("YearDateId")]
+        //public YearsDate YearDate { get; set; }
 
 
 

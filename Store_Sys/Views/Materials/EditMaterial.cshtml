@@ -15,28 +15,38 @@
 
         <div class="row">
             <!-- اسم المادة -->
-            <div class="col-sm-12 col-md-3 mt-3">
-                <label asp-for="Name"></label>
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label> أسم المادة</label>
                 <input asp-for="Name" class="form-control" placeholder="اسم المادة" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <!-- الوحدة -->
+            <!-- الوحدة -->
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label>الوحدة</label>
+                <select asp-for="UnitsId" class="form-select" asp-items="@(new SelectList(Model.UnitsList, "Value", "Text", Model.UnitsId))" required>
+                    <option value="">اختر الوحدة…</option>
+                </select>
+                <span asp-validation-for="UnitsId" class="text-danger"></span>
+            </div>
+
 
             <!-- كود المادة -->
-            <div class="col-sm-12 col-md-3 mt-3">
-                <label asp-for="Code"></label>
+            <div class="col-sm-12 col-md-4 mt-3">
+                <label>  الكود</label>
                 <input asp-for="Code" class="form-control" placeholder="كود المادة" />
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
 
             <!-- التفاصيل -->
-            <div class="col-sm-12 col-md-6 mt-3">
-                <label asp-for="Details"></label>
+            <div class="col-sm-12 mt-3">
+                <label>  التفاصيل</label>
                 <textarea asp-for="Details" class="form-control" rows="3" placeholder="تفاصيل المادة"></textarea>
                 <span asp-validation-for="Details" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="col-sm-12 mt-2">
+        <div class="col-sm-12 mt-4">
             <input type="submit" class="form-control color-btn" value="حفظ" />
         </div>
     </form>

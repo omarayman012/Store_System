@@ -79,7 +79,35 @@
     }
 
 </style>
+<style>
+    .btn-refresh {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px; /* تصغير الحجم */
+        height: 40px; /* تصغير الحجم */
+        background-color: #B0B0B0; /* لون رمادي فاتح */
+        color: white;
+        border-radius: 50%; /* الشكل الدائري */
+        font-size: 18px; /* حجم الأيقونة */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* تأثير ظل خفيف */
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
 
+        .btn-refresh:hover {
+            transform: scale(1.1); /* تكبير الزر عند التحويم */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التحويم */
+            background-color: #004D73; /* لون كحلي عند التحويم */
+        }
+
+        .btn-refresh i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-refresh:hover i {
+            transform: rotate(360deg); /* إضافة حركة دوران للأيقونة عند التحويم */
+        }
+</style>
 <div class="mt-5">
     <div id="personal-info" class="shadow">
         <span class="bg-color"> بيانات مخرجات المستندات </span>
@@ -107,8 +135,10 @@
             var counter = 1;
         }
         <div class="row">
-            <form>
+            <form id="searchForm">
                 <div class="row my-3">
+
+
                     <!-- بحث برقم المستند -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <label for="searchDocumentNum" class="mb-2">بحث برقم المستند</label>
@@ -138,31 +168,50 @@
                         <label for="endDate" class="mb-2">تاريخ إلى</label>
                         <input type="date" id="endDate" name="endDate" class="form-control" value="@Context.Request.Query["endDate"]">
                     </div>
-
                     <!-- بحث باسم الشخص -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <label for="searchPerson" class="mb-2">بحث بشخص</label>
-                        <input type="text" id="searchPerson" name="searchPerson" class="form-control" placeholder="اختر الشخص" value="@Context.Request.Query["searchPerson"]">
+                        <select id="searchPerson" name="searchPerson" class="form-control">
+                            <option value="">اختر الشخص</option>
+                            @foreach (var person in ViewBag.Persons)
+                            {
+                                <option value="@person.Id" selected="@(person.Id.ToString() == Context.Request.Query["searchPerson"])">@person.Name</option>
+                            }
+                        </select>
                     </div>
 
                     <!-- بحث بالقسم -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <label for="searchDepartment" class="mb-2">بحث بقسم</label>
-                        <input type="text" id="searchDepartment" name="searchDepartment" class="form-control" placeholder="اختر القسم" value="@Context.Request.Query["searchDepartment"]">
+                        <select id="searchDepartment" name="searchDepartment" class="form-control">
+                            <option value="">اختر القسم</option>
+                            @foreach (var department in ViewBag.Departments)
+                            {
+                                <option value="@department.Id" selected="@(department.Id.ToString() == Context.Request.Query["searchDepartment"])">@department.Name</option>
+
+                            }
+                        </select>
                     </div>
 
                     <!-- زر البحث -->
                     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
                         <button type="submit" style="color: white;" class="btn PrimaryBtn mt-4 w-100">بحث</button>
+
                     </div>
-      
-                </div>
+
+                    <!-- زر إعادة تحميل البيانات بدون فلترة -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2 d-flex justify-content-center align-items-center">
+                        <a href="@Url.Action("Index", "OutFiles")" class="btn btn-refresh" style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 18px; border-radius: 5px;">
+                            <i class="fas fa-sync-alt"></i>
+                        </a>
+                    </div>
+				</div>
             </form>
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">رقم المستند</th>
+@*                         <th scope="col">#</th>
+ *@                        <th scope="col">رقم المستند</th>
                         <th scope="col">تاريخ المستند</th>
                         <th scope="col">رقم الطلب</th>
                         <th scope="col">رقم الموافقة</th>
@@ -176,12 +225,12 @@
                     @foreach (var file in Model)
                     {
                         <tr>
-                            <td>@counter</td>
+@*                             <td>@counter</td> *@ 
                             <td>@file.DocumentNum</td>
                             <td>@(file.Documentdate?.ToString("MM/dd/yyyy"))</td>
                             <td>@file.OrderNum</td>
                             <td>@file.ApprovalNum</td>
-                            <td>@file.PersonPrepared</td>
+                            <td>@file.Person?.Name</td>
                             <td>@file.Department?.Name</td>
                             <td>
                                 <a href="@Url.Action("EditFile", "OutFiles", new { id = file.Id })" class="btn text-dark">
@@ -274,6 +323,28 @@
 
 
 
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        // منع إرسال النموذج التقليدي
+        event.preventDefault();
 
+        // بناء الرابط الجديد
+        var form = event.target;
+        var url = window.location.pathname + '?';
+
+        // إضافة القيم الموجودة في الـ form إلى الرابط
+        var formData = new FormData(form);
+        formData.forEach(function(value, key) {
+            if (value) {
+                url += key + '=' + encodeURIComponent(value) + '&';
+            }
+        });
+
+        // إرسال الطلب باستخدام الرابط الجديد
+        window.location.href = url;
+    });
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 

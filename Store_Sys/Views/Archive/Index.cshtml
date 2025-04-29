@@ -1,4 +1,85 @@
-﻿<style>
+﻿@model IEnumerable<Store_Sys.Models.Archive>
+    
+<style>
+    .PrimaryBtn {
+        background-color: rgb(15, 103, 177) !important;
+        color: white; /* لون النص */
+        border: none; /* إخفاء الإطار */
+        padding: 10px 20px; /* ضبط الحشوة */
+        text-align: center; /* محاذاة النص في الوسط */
+        text-decoration: none; /* إزالة التسطير عن النص */
+        display: inline-block; /* عرض الزر كعنصر سطري */
+        font-size: 16px; /* حجم النص */
+        margin: 4px 2px; /* الهوامش */
+        cursor: pointer; /* تغيير شكل المؤشر عند التحويم */
+        border-radius: 4px; /* تقويس الزوايا */
+    }
+
+        .PrimaryBtn:hover {
+            color: white !important;
+        }
+    /* From Uiverse.io by alexmaracinaru */
+    .cta {
+        position: relative;
+        margin: auto;
+        padding: 12px 18px;
+        transition: all 0.2s ease;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #b1dae7;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
+        }
+
+</style>
+
+<style>
     .custom-btn {
         font-size: 0.85rem; /* نص أصغر نسبياً */
         padding: 8px 16px;
@@ -135,48 +216,121 @@
                 </a>
             </div>
         </div>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <div class="row">
+            <form>
+                <div class="row my-3">
+                    <!-- بحث برقم المستند -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <label for="searchDocumentNum" class="mb-2">بحث برقم المستند</label>
+                        <input type="text" id="searchDocumentNum" name="searchDocumentNum" class="form-control" placeholder="بحث برقم المستند" value="@ViewData["searchDocumentNum"]">
+                    </div>
 
+                    <!-- تاريخ من -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <label for="startDate" class="mb-2">تاريخ من</label>
+                        <input type="date" id="startDate" name="startDate" class="form-control" value="@ViewData["startDate"]">
+                    </div>
+
+                    <!-- تاريخ إلى -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <label for="endDate" class="mb-2">تاريخ إلى</label>
+                        <input type="date" id="endDate" name="endDate" class="form-control" value="@ViewData["endDate"]">
+                    </div>
+               <!-- نوع العملية -->
+                   <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <label for="operationTypeId" class="mb-2">نوع العملية</label>
+                        <select id="operationTypeId" name="operationTypeId" class="form-control">
+                            <option value="">-- الكل --</option>
+                            @foreach (var type in (SelectList)ViewData["OperationTypes"])
+                            {
+                                var selected = ViewData["operationTypeId"] != null && ViewData["operationTypeId"].ToString() == type.Value.ToString() ? "selected" : "";
+                                <option value="@type.Value" >
+                                    @type.Text
+                                </option>
+                            }
+                        </select>
+                   </div>
+
+
+
+
+                    <!-- زر البحث -->
+                    <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mt-2">
+                        <button type="submit" style="color: white;" class="btn PrimaryBtn mt-4 w-100">بحث</button>
+                    </div>
+
+
+          
+                </div>
+            </form>
+
+        </div>
         <div class="row">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">رقم المستند</th>
-                        <th scope="col">تاريخ المستند</th>
-                        <th scope="col">نوع العملية</th>
-                        <th scope="col">ملف المستند</th>
-
-                        <th scope="col">تعديل</th>
-                        <th scope="col">  حذف   </th>
+                        <th>#</th>
+                        <th>رقم المستند</th>
+                        <th>تاريخ المستند</th>
+                        <th>نوع العملية</th>
+                        <th>ملف المستند</th>
+                        <th>تعديل</th>
+                        <th>حذف</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="" target="_blank" class="show-file-hover" title="">
-                                <button type="button" class="custom-btn btn-fasl w-50">
-                                    ملف الحركة
-                                </button>
-                            </a>
-                        </td>
-                        
-                        <td>
-                            <a href="@Url.Action("Edit", "Archive")" class="btn text-dark">
-                                <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px;">
-                            </a>
-                        </td>
-                        <td>
-                            <button class="btn text-dark delete-material"
-                                    data-id=""
-                                    style="border: none; background: transparent;">
-                                <img src="/images/trash.png" alt="حذف" style="width: 30px; height: 30px;">
-                            </button>
-                        </td>
-                    </tr>
+                    @if (Model != null && Model.Any())
+                    {
+                        int index = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>@item.DocumentNum</td>
+                                <td>@item.Documentdate.ToShortDateString()</td>
+                                <td>@item.OperationType?.Name</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.FilePath))
+                                    {
+                                        <a href="@item.FilePath" target="_blank" class="show-file-hover">
+                                            <button class="custom-btn btn-fasl w-50">ملف الحركة</button>
+                                        </a>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Archive", new { id = item.Id })" class="btn text-dark">
+                                        <img src="/images/edit.png" alt="تعديل" style="width: 30px; height: 30px;">
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    <form method="post" action="@Url.Action("Delete", "Archive")" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="button" class="btn text-dark delete-material" style="border:none; background:transparent;">
+                                            <img src="/images/trash.png" alt="حذف" style="width:30px;height:30px;">
+                                        </button>
+                                    </form>
+                                </td>
+                                
+                            </tr>
+                            index++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">لا توجد مستندات</td>
+                        </tr>
+                    }
+
+                   
                 </tbody>
             </table>
         </div>
@@ -184,3 +338,60 @@
     </div>
 
 </div>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('click', function (e) {
+    if (e.target.closest('.delete-material')) {
+        e.preventDefault(); // <<<<<<<< أضف هذا السطر هنا
+
+        const btn = e.target.closest('.delete-material');
+        const row = btn.closest('tr');
+        const fileId = row.querySelector('input[name="id"]').value;
+
+        Swal.fire({
+            title: 'هل أنت متأكد؟',
+            text: 'سيتم حذف هذا المستند نهائيًا!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'نعم، احذف',
+            cancelButtonText: 'إلغاء',
+            reverseButtons: true,
+            confirmButtonColor: '#d33'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/Archive/Delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${fileId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        row.remove();
+                        Swal.fire({
+                            title: 'تم الحذف!',
+                            text: 'تم حذف المستند بنجاح.',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire('حدث خطأ', 'لم يتم الحذف من قاعدة البيانات.', 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('حدث خطأ', 'لم يتم الحذف من قاعدة البيانات.', 'error');
+                });
+            }
+        });
+    }
+});
+</script>
