@@ -469,20 +469,6 @@
                             <input type="number" class="form-control total" name="Items[0].Total" readonly />
                             <span class="text-danger" data-valmsg-for="Items[0].Total" data-valmsg-replace="true"></span>
                         </td>
-                  @*       <td>
-                            <input type="date" class="form-control" name="Items[0].EntryDate" required />
-                            <span class="text-danger" data-valmsg-for="Items[0].EntryDate" data-valmsg-replace="true"></span>
-                        </td>
-                        <td>
-                            <select class="form-select years-select" name="Items[0].YearDateId" required>
-                                <option value="">اختر السنة…</option>
-                                @foreach (var item in Model.YearsList)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span class="text-danger" data-valmsg-for="Items[0].YearDateId" data-valmsg-replace="true"></span>
-                        </td> *@
                         <td><textarea class="form-control" name="Items[0].Details"></textarea></td>
                         <td></td>
                     </tr>

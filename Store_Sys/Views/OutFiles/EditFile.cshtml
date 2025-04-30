@@ -373,15 +373,13 @@
                     <option value="">اختر المُجهز</option>
                 </select>
                 <span asp-validation-for="OutFile.PreparedPerson" class="text-danger"></span>
-            </div> 
-            
-            <!-- اسم المُجهز له -->
-            <div class="col-sm-12 col-md-2 mt-3">
-                <label asp-for="OutFile.PersonPrepared" class="form-label"></label>
-                <input asp-for="OutFile.PersonPrepared" class="form-control" placeholder="أدخل اسم المُجهز له" />
-                <span asp-validation-for="OutFile.PersonPrepared" class="text-danger"></span>
             </div>
 
+                <div class="col-sm-12 col-md-2 mt-3">
+                    <label asp-for="OutFile.PersonPrepared" class="form-label"></label>
+                    <input asp-for="OutFile.PersonPrepared" class="form-control" placeholder="أدخل اسم المُجهز له" />
+                    <span asp-validation-for="OutFile.PersonPrepared" class="text-danger"></span>
+                </div>
 
         </div>
 
